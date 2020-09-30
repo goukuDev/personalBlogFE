@@ -1,9 +1,12 @@
 import React from 'react';
+import { Comment, Tooltip, List, Card, Form, Input, Button, message } from 'antd';
+import style from './index.scss';
 
 export default function Index(){
   return(
-    <>
-      聊天室
-    </>
+    <div className={style.chatbox}>
+        <Card className={style.card}>
+        </Card>
+    </div>
   )
 }

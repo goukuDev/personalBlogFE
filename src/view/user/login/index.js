@@ -18,6 +18,7 @@ export default function Login(){
     if(data.code === 0){
       message.success(data.message);
       localStorage.setItem('token',data.token);
+      localStorage.setItem('user',JSON.stringify(data.data));
       location.href = '/'
     }else{
       message.error(data.message);

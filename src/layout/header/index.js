@@ -15,6 +15,7 @@ const outLogin = () =>{
   history.push('/login')
 }
 
+
 export default function Index(props){
   const {collapsed,changeCollapsed,changeCurrent} = props;
 
@@ -31,16 +32,17 @@ export default function Index(props){
         className: 'trigger',
         onClick: ()=>{changeCollapsed(!collapsed)},
       })}
-      <Dropdown overlay={DropMenu} placement="bottomCenter" arrow>
-        <Avatar
+      <div>
+      <span style={{marginRight:'10px'}}>石永华</span>
+        <Dropdown overlay={DropMenu} placement="bottomCenter" arrow>
+          <Avatar 
           style={{
-            backgroundColor: '#87d068',
             marginRight:'40px',
             cursor:'pointer'
           }}
-          icon={<UserOutlined />}
-        />
-      </Dropdown>
+          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+        </Dropdown>
+      </div>
     </Header>
   )
 }

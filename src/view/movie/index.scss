@@ -1,4 +1,24 @@
-.modalForm{
+.moviebox{
+  height: 100%;
+  .card{
+    height: 100%;
+    :global(.ant-card-extra){
+      padding: 0;
+    }
+    :global(.ant-card-body){
+      height: calc(100% - 58px);
+      .tablebox{
+        height: 100%;
+        :global(.ant-table-wrapper){
+          height: calc(100% - 47px);
+          overflow: auto;
+        }
+        :global(.ant-pagination){
+          height: 32px;
+        }
+      }      
+    }
+  }
   :global(.ant-input-number){
     width: 100%;
   }

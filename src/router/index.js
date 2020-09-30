@@ -1,6 +1,5 @@
 import React from 'react';
 import Home from '@/view/home';
-import About from '@/view/about';
 import Movie from '@/view/movie';
 import Chat from '@/view/chat';
 import Message from '@/view/message';
@@ -13,7 +12,7 @@ function AuthRoute({ roleName, component: Component, ...rest }) {
       <Route
           {...rest}
           render={props => {
-              return localStorage.getItem('token') && ['home','about','movie','chat','message'].includes(roleName) ? (
+              return localStorage.getItem('token') && ['home','movie','chat','message'].includes(roleName) ? (
                   <Layout>
                     <Component {...props} />
                   </Layout>
@@ -37,7 +36,6 @@ export default function Index(){
         { outRouter.map(item => <Route path={item.path}  component={item.component} key={item.path}/>) }
         <AuthRoute exact roleName='home' path='/' component={Home}/>
         <AuthRoute roleName='home' path='/home' component={Home}/>
-        <AuthRoute roleName='about' path='/about' component={About}/>
         <AuthRoute roleName='movie' path='/movie' component={Movie}/>
         <AuthRoute roleName='chat' path='/chat' component={Chat}/>
         <AuthRoute roleName='message' path='/message' component={Message}/>

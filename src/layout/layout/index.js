@@ -5,7 +5,6 @@ import {createHashHistory} from 'history';
 import style from './index.scss';
 import {
   HomeOutlined,
-  MenuOutlined,
   YoutubeOutlined,
   CommentOutlined,
   TeamOutlined,
@@ -17,7 +16,6 @@ const img = require('@/assets/img/logo.svg');
 const pathname = history.location.pathname.split('/')[1];
 const menuArray = [
   {key:"home",name:"首页",icon:HomeOutlined},
-  {key:"about",name:"关于",icon:MenuOutlined},
   {key:"movie",name:"影视",icon:YoutubeOutlined},
   {key:"chat",name:"聊天",icon:TeamOutlined},
   {key:"message",name:"留言板",icon:CommentOutlined},

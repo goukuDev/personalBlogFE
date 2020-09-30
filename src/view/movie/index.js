@@ -1,8 +1,9 @@
 import React,{Component} from 'react';
-import { Table,Modal,message,Divider,Button,Pagination} from 'antd';
+import { Table,Modal,message,Divider,Button,Pagination,Card} from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import {getMovieList,addmovie,removemovie,getMovieById,updateMovie} from '@/api/movie';
 import CollectionCreateForm from './CollectionCreateForm';
+import style from './index.scss';
 
 const {confirm} = Modal;
 export default class Index extends Component{
@@ -142,33 +143,40 @@ export default class Index extends Component{
       }
     ];
     return (
-      <>
-        <Button type="primary" style={{marginBottom:20}} onClick={()=>{this.setState({visible:true,movieData:{}})}}>新增</Button>
-        <Table 
-          loading={this.state.loading}
-          rowKey={(row) => row.id} 
-          pagination={false}
-          dataSource={this.state.data} 
-          scroll={{y:600}}
-          columns={columns}>
-        </Table>
-        <Pagination 
-          style={{marginTop:15,textAlign:'right'}}
-          showSizeChanger
-          showTotal={total => `共${total}条`}
-          total={this.state.pagination.total} 
-          current={this.state.pagination.pageNum}
-          defaultPageSize={this.state.pagination.pageSize}
-          pageSizeOptions={this.state.pagination.pageSizeOptions}
-          onChange={this.onChange}
-        />
-        <CollectionCreateForm
-          movieData={this.state.movieData}
-          show={this.state.visible}
-          onCreate={this.onCreate}
-          onCancel={() => {this.setState({visible:false})}}
-        />
-      </>
+      <div className={style.moviebox}>
+        <Card 
+        title="电影收集者" 
+        extra={
+          <Button type="primary" onClick={()=>{this.setState({visible:true,movieData:{}})}}>新增</Button>
+        } 
+        className={style.card}>
+          <div className={style.tablebox}>
+            <Table 
+              loading={this.state.loading}
+              rowKey={(row) => row.id} 
+              pagination={false}
+              dataSource={this.state.data} 
+              columns={columns}>
+            </Table>
+            <Pagination 
+              style={{marginTop:15,textAlign:'right'}}
+              showSizeChanger
+              showTotal={total => `共${total}条`}
+              total={this.state.pagination.total} 
+              current={this.state.pagination.pageNum}
+              defaultPageSize={this.state.pagination.pageSize}
+              pageSizeOptions={this.state.pagination.pageSizeOptions}
+              onChange={this.onChange}
+            />
+          </div>
+          <CollectionCreateForm
+            movieData={this.state.movieData}
+            show={this.state.visible}
+            onCreate={this.onCreate}
+            onCancel={() => {this.setState({visible:false})}}
+          />
+        </Card>
+      </div>
     )
   }
 };

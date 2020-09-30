@@ -1,0 +1,21 @@
+.messagebox{
+  height: 100%;
+  .card{
+    height: 100%;
+    :global(.ant-card-body){
+      height: calc(100% - 58px);
+      display: flex;
+      .commentlist{
+        flex: 1;
+        height: 100%;
+        overflow: auto;
+        &::-webkit-scrollbar{
+          display: none;
+        }
+      };
+      :global(.ant-comment){
+        width: 300px;
+      }
+    }
+  }
+}
