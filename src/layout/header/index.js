@@ -22,6 +22,10 @@ export default function Index(props){
   const DropMenu = (
     <Menu>
       <Menu.Item key='user'>
+        <span>用户中心</span>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key='out'>
         <span onClick={outLogin}>退出登录</span>
       </Menu.Item>
     </Menu>
@@ -33,7 +37,7 @@ export default function Index(props){
         onClick: ()=>{changeCollapsed(!collapsed)},
       })}
       <div>
-      <span style={{marginRight:'10px'}}>石永华</span>
+        <span style={{marginRight:'10px'}}>{JSON.parse(localStorage.getItem('user')).username}</span>
         <Dropdown overlay={DropMenu} placement="bottomCenter" arrow>
           <Avatar 
           style={{

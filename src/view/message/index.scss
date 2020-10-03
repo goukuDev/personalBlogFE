@@ -5,14 +5,21 @@
     :global(.ant-card-body){
       height: calc(100% - 58px);
       display: flex;
-      .commentlist{
+      padding: 12px;
+      .left{
         flex: 1;
         height: 100%;
-        overflow: auto;
-        &::-webkit-scrollbar{
-          display: none;
+        .commentlist{
+          height: calc(100% - 47px);
+          overflow: auto;
+          &::-webkit-scrollbar{
+            display: none;
+          }
+        };
+        :global(.ant-pagination){
+          height: 32px;
         }
-      };
+      }
       :global(.ant-comment){
         width: 300px;
       }

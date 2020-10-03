@@ -1,6 +1,43 @@
-.chatbox{
+.chatRoom{
   height: 100%;
   .card{
     height: 100%;
+    :global(.ant-card-head){
+      text-align: center;
+      background-color: #3066f16b;
+    }
+    :global(.ant-card-body){
+      height: calc(100% - 58px);
+      padding: 0;   
+      background-color: #e8e8f8;
+      display: flex;
+      .left{
+        flex:1;
+      }
+      .right{
+        width: 350px;
+        padding: 12px;
+        border-left: 1px solid #ccc;
+        .userlist{
+          height: 100%;
+          :global(.ant-list-header){
+            height: 50px;
+          }
+          :global(.ant-spin-nested-loading){
+            height: calc(100% - 50px);
+            :global(.ant-spin-container){
+              height: 100%;
+              :global(.ant-list-items){
+                height: 100%;
+                overflow: auto;
+                :global(.own){
+                  color: red;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

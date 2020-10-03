@@ -56,8 +56,7 @@ export default class Index extends Component{
           <Content
             className="site-layout-background"
             style={{
-              margin: '24px 16px',
-              padding: 24,
+              padding: 10,
               minHeight: 280,
             }}
           >
@@ -66,7 +65,7 @@ export default class Index extends Component{
               {this.props.children}
             </React.Fragment>
           </Content>
-          <Footer style={{'textAlign':'center'}}>2015~2020@by shiyonghua</Footer>
+          {/* <Footer style={{'textAlign':'center'}}>2015~2020@by shiyonghua</Footer> */}
         </Layout>
       </Layout>
     )

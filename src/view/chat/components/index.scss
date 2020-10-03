@@ -1,0 +1,66 @@
+
+.messages{
+  height: calc(100% - 160px);
+  overflow: auto;
+  padding: 0 12px;
+  border-bottom: 1px solid #ccc;
+  &::-webkit-scrollbar{
+    display: none;
+  }
+  .me{
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    font-size: 12px;
+    .messageContent{
+      padding: 5px;
+      background: #bfbfbf63;
+      border-radius: 5px;
+      text-align: center;
+      margin-top: 5px;
+    }
+    &>span{
+      margin-left: 6px;
+    }
+  }
+  .other{
+    text-align: left;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+    font-size: 12px;
+    .messageContent{
+      padding: 5px;
+      background: #bfbfbf63;
+      border-radius: 5px;
+      text-align: center;
+      margin-top: 5px;
+    }
+    &>span{
+      margin-right: 6px;
+    }
+  }
+}
+
+.inputbox{
+  height: 160px;
+  .input{
+    height: calc(100% - 50px);
+    margin-bottom: 5px;
+    :global(.ant-input){
+      height: 100%;
+      outline: none;
+      resize: none;
+      background: none;
+    }
+  }
+  .button{
+    height: 45px;
+    line-height: 45px;
+    text-align: right;
+    :global(.ant-btn){
+      font-size: 12px;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Comment, Tooltip, List, Card, Form, Input, Button, message } from 'antd';
+import { Comment, Tooltip, List, Card, Form, Input, Button, message, Pagination } from 'antd';
 import moment from 'moment';
 import style from './index.scss';
 import {msgList,addmsg} from '@/api/message';
@@ -24,6 +24,12 @@ export default class Index extends Component{
     data: [],
     submitting: false,
     value: '',
+    pagination:{
+      total: 0,
+      pageNum: 1,
+      pageSize: 10,
+      pageSizeOptions: ['1', '10', '20', '50', '100'],
+    },
   };
   
   componentDidMount(){
@@ -32,9 +38,9 @@ export default class Index extends Component{
 
   //获取历史留言数据
   getMsgList = async() =>{
-    let {data} = await msgList();
+    let {pageNum,pageSize} = this.state.pagination;
+    let {data} = await msgList({page:pageNum,pageSize:pageSize});
     if(data.code === 0){
-      
       const localDate = (v) => {
         const d = new Date(v || Date.now());
         d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
@@ -51,11 +57,15 @@ export default class Index extends Component{
           </Tooltip>
         )
       }))
+      let pagination = Object.assign({},this.state.pagination,{
+        total:data.total
+      });
       this.setState({
         value: '',
         data: [
           ...dataMsg,
         ],
+        pagination
       });
     }
   }
@@ -73,11 +83,6 @@ export default class Index extends Component{
       submitting: true,
     });
 
-    const sendDate = (v) => {
-      const d = new Date(v || Date.now());
-      d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-      return d.toISOString();
-    };
 
     let {data} = await addmsg({
       username:JSON.parse(localStorage.getItem('user')).username,
@@ -90,25 +95,50 @@ export default class Index extends Component{
       this.getMsgList();
     }
   }
+
+  onChange = (page,pageSize)=>{
+    let pagination = Object.assign({},this.state.pagination,{
+      pageNum:page,
+      pageSize:pageSize
+    })
+    this.setState({
+      pagination:pagination
+    },()=>{
+      this.getMsgList();
+    });
+  }
+
   render(){
     return(
       <div className={style.messagebox}>
         <Card title='留言板' className={style.card}>
-          <List
-            className={style.commentlist}
-            itemLayout="horizontal"
-            dataSource={this.state.data}
-            renderItem={item => (
-              <li>
-                <Comment
-                  author={item.author}
-                  avatar={item.avatar}
-                  content={item.content}
-                  datetime={item.datetime}
-                />
-              </li>
-            )}
-          />
+          <div className={style.left}>
+            <List
+              className={style.commentlist}
+              itemLayout="horizontal"
+              dataSource={this.state.data}
+              renderItem={item => (
+                <li>
+                  <Comment
+                    author={item.author}
+                    avatar={item.avatar}
+                    content={item.content}
+                    datetime={item.datetime}
+                  />
+                </li>
+              )}
+            />
+            <Pagination 
+              style={{textAlign:'left',marginTop:'15px'}}
+              showSizeChanger
+              showTotal={total => `共${total}条`}
+              total={this.state.pagination.total} 
+              current={this.state.pagination.pageNum}
+              defaultPageSize={this.state.pagination.pageSize}
+              pageSizeOptions={this.state.pagination.pageSizeOptions}
+              onChange={this.onChange}
+            />
+          </div>
           <Comment
             content={
               <Editor
