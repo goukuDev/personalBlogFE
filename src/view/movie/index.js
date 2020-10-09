@@ -145,7 +145,7 @@ export default class Index extends Component{
     return (
       <div className={style.moviebox}>
         <Card 
-        title="电影收集者" 
+        title="电影回收站" 
         extra={
           <Button type="primary" onClick={()=>{this.setState({visible:true,movieData:{}})}}>新增</Button>
         } 

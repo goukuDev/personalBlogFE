@@ -1,15 +1,16 @@
-import React,{Component} from 'react';
+import React,{Component,createElement} from 'react';
 import { Comment, Tooltip, List, Card, Form, Input, Button, message, Pagination } from 'antd';
 import moment from 'moment';
 import style from './index.scss';
-import {msgList,addmsg} from '@/api/message';
+import {msgList,addmsg,giveStart} from '@/api/message';
+import { DislikeOutlined, LikeOutlined } from '@ant-design/icons';
+import Reply from './reply';
 
 const { TextArea } = Input;
-
-const Editor = ({ onChange, onSubmit, submitting, value }) => (
+const Editor = ({ onChange, onSubmit, onPressEnter, submitting, value }) => (
   <>
     <Form.Item>
-      <TextArea rows={4} onChange={onChange} value={value} />
+      <TextArea rows={4} onChange={onChange} value={value} onPressEnter={onPressEnter} placeholder="发送/回车提交"/>
     </Form.Item>
     <Form.Item>
       <Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary">
@@ -18,7 +19,6 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
     </Form.Item>
   </>
 );
-
 export default class Index extends Component{
   state = {
     data: [],
@@ -30,10 +30,34 @@ export default class Index extends Component{
       pageSize: 10,
       pageSizeOptions: ['1', '10', '20', '50', '100'],
     },
+    likes:0,
+    dislikes:0,
+    ReplayData:{},
+    visible:false
   };
   
   componentDidMount(){
     this.getMsgList();
+  }
+  
+
+  like = async (e,type) => {
+    const num = type === 'like'? e.like+= 1 : e.dislike+= 1;
+    let options = {
+      type:type,
+      like:num,
+      id:e._id
+    }
+    let {data} = await giveStart(options);
+    if(data.code === 0){
+      this.getMsgList();
+    }
+  };
+
+  reply = (e) =>{
+    this.setState({
+      ReplayData:e
+    })
   }
 
   //获取历史留言数据
@@ -41,18 +65,31 @@ export default class Index extends Component{
     let {pageNum,pageSize} = this.state.pagination;
     let {data} = await msgList({page:pageNum,pageSize:pageSize});
     if(data.code === 0){
+
       const localDate = (v) => {
         const d = new Date(v || Date.now());
         d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
         return d.toISOString();
       };
 
+      
       let dataMsg = data.data.map(item=>Object.assign({},{
+        actions:[
+            <span onClick={()=>this.like(item,'like')}>
+              {createElement(LikeOutlined)}
+              <span className="comment-action">{item.like}</span>
+            </span>,
+            <span onClick={()=>this.like(item,'dislike')}>
+              {createElement(DislikeOutlined)}
+              <span className="comment-action">{item.dislike}</span>
+            </span>,
+            <span onClick={()=>this.setState({ReplayData:item,visible:true})}>回复</span>
+        ],
         author: item.username,
         avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
         content: (item.content),
         datetime: (
-          <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+          <Tooltip title={moment(localDate(item.date)).format('YYYY-MM-DD HH:mm:ss')}>
             <span>{moment(localDate(item.date)).fromNow()}</span>
           </Tooltip>
         )
@@ -70,11 +107,6 @@ export default class Index extends Component{
     }
   }
 
-  handleChange = (e) =>{
-    this.setState({
-      value:e.target.value
-    })
-  }
   //发布留言
   handleSubmit = async() =>{
     if (!this.state.value) return message.error('请输入留言内容');
@@ -87,7 +119,7 @@ export default class Index extends Component{
     let {data} = await addmsg({
       username:JSON.parse(localStorage.getItem('user')).username,
       content:this.state.value,
-      date:new Date()
+      date:new Date(),
     })
     if(data.code === 0){
       message.success('新增成功');
@@ -107,6 +139,25 @@ export default class Index extends Component{
       this.getMsgList();
     });
   }
+  
+  handleKeyPress = (e)=> {
+    if (e.key == 'Enter') {
+        this.handleSubmit()
+    }
+    return false;
+  }
+
+  reply = async (e) =>{
+    let {data} = await addmsg({
+      username:JSON.parse(localStorage.getItem('user')).username,
+      content:e.content,
+      date:new Date(),
+      parentId:this.state.ReplayData._id
+    })
+    if(data.code === 0){
+      this.getMsgList();
+    }
+  }
 
   render(){
     return(
@@ -120,6 +171,7 @@ export default class Index extends Component{
               renderItem={item => (
                 <li>
                   <Comment
+                    actions={item.actions}
                     author={item.author}
                     avatar={item.avatar}
                     content={item.content}
@@ -140,16 +192,23 @@ export default class Index extends Component{
             />
           </div>
           <Comment
+            className={style.right}
             content={
               <Editor
-                onChange={this.handleChange}
+                onChange={(e)=>this.setState({value:e.target.value})}
                 onSubmit={this.handleSubmit}
+                onPressEnter={this.handleKeyPress}
                 submitting={this.state.submitting}
                 value={this.state.value}
               />
             }
           />
         </Card>
+        <Reply
+          show={this.state.visible}
+          onReply={this.reply}
+          onCancel={() => {this.setState({visible:false})}}
+        />
       </div>
     )
   }

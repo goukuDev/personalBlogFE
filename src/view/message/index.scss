@@ -20,9 +20,12 @@
           height: 32px;
         }
       }
-      :global(.ant-comment){
-        width: 300px;
+      .right{
+        width: 500px;
       }
+      // :global(.ant-comment){
+      //   width: 300px;
+      // }
     }
   }
 }

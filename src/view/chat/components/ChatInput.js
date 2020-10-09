@@ -58,16 +58,16 @@ export default class ChatInput extends Component {
                     <TextArea 
                     type="text" 
                     maxLength="140" 
-                    placeholder="按回车提交" 
+                    placeholder="发送/回车提交" 
                     bordered={false}
                     value={this.state.message}
                     onPressEnter={this.handleKeyPress}
                     onChange={this.handleChange}/>                 
                 </div>                 
                 <div className={style.button}>
-                    <Button size='small' onClick={this.handleOut}>退出</Button>
+                    <Button onClick={this.handleOut}>退出</Button>
                     &nbsp;&nbsp;
-                    <Button onClick={this.handleClick} type="primary" size='small'>发送</Button>
+                    <Button onClick={this.handleClick} type="primary">发送</Button>
                     &nbsp;&nbsp;
                 </div>             
             </div>             

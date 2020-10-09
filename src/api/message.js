@@ -16,3 +16,11 @@ export function addmsg(data){
     data,
   })
 }
+//点赞/取消点赞
+export function giveStart(data){
+  return request({
+    url: '/api/msg/giveStart',
+    method: 'post',
+    data,
+  })
+}

@@ -2,12 +2,13 @@
   height: 100%;
   .card{
     height: 100%;
+    border: none;
     :global(.ant-card-head){
       text-align: center;
       background-color: #3066f16b;
     }
     :global(.ant-card-body){
-      height: calc(100% - 58px);
+      height: calc(100% - 57px);
       padding: 0;   
       background-color: #e8e8f8;
       display: flex;
