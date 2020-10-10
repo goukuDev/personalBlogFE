@@ -1,9 +1,10 @@
 import React,{useState,useEffect} from 'react';
-import {getMockData} from '@/api/mock';
-import {Table,Pagination,Modal,message} from 'antd';
+import {getUserList} from '@/api/user';
+import {Table,Pagination,Modal,message,Card} from 'antd';
 import {
   ExclamationCircleOutlined
 } from '@ant-design/icons';
+import style from './index.scss';
 
 const {confirm} = Modal;
 export default function Index(){
@@ -14,37 +15,18 @@ export default function Index(){
       dataIndex: 'name',
     },
     {
-      title: '地址',
+      title: '用户名',
       align:'center',
-      dataIndex: 'address',
+      dataIndex: 'username',
     },
     {
-      title: '时间',
+      title: '手机号',
       align:'center',
-      dataIndex: 'date',
+      dataIndex: 'phone',
     },
     {
-      title: '文本',
-      dataIndex: 'text',
-    },
-    {
-      title: '性别',
-      align:'center',
-      dataIndex:'gender',
-      render:(e)=>{
-        return(
-        <>{e? '男':'女'}</>
-        )
-      }
-    },
-    {
-      title:'操作',
-      align:'center',
-      render:(row)=>{
-        return(
-          <a onClick={()=>deleted(row)}>删除</a>
-        )
-      }
+      title: '邮箱',
+      dataIndex: 'email',
     }
   ]
   const [data,setData] = useState([]);
@@ -57,56 +39,39 @@ export default function Index(){
 
   const getData = async ()=>{
     setLoading(true);
-    let res = await getMockData();
-    if(res.status === 200){
-      setData(res.data);
+    let {data} = await getUserList();
+    if(data.code === '0'){
+      setData(data.data);
       setLoading(false);
       setPagination({
         ...pagination,
-        total:res.data.length
+        total:data.data.length
       })
     }
   };
   useEffect(()=>{
     getData()
   },[]);
-
-  const deleted = (e) =>{
-    confirm({
-      title: '确定删除数据吗?',
-      icon: <ExclamationCircleOutlined />,
-      centered:true,
-      maskClosable:true,
-      content: '删除后数据不能恢复',
-      okText: '确定',
-      okType: 'danger',
-      cancelText: '取消',
-      onOk:()=> {
-        setData(data.filter(o=>o.id !== e.id))
-        message.success('删除成功');
-      },
-      onCancel() {
-        console.log('Cancel');
-      },
-    })
-  };
   return(
-    <>
-      <Table 
-        loading={loading}
-        rowKey={(row) => row.id} 
-        pagination={false}
-        dataSource={data} 
-        scroll={{y:600}}
-        columns={columns}>
-      </Table>
-      <Pagination 
-        style={{marginTop:15,textAlign:'right'}}
-        showTotal={total => `共${total}条`}
-        total={pagination.total} 
-        current={pagination.pageNum}
-        defaultPageSize={pagination.pageSize}
-      />
-    </>
+    <div className={style.home}>
+      <Card title='用户' className={style.card}>
+        <div className={style.tablebox}>
+          <Table 
+            loading={loading}
+            rowKey={(row) => row._id} 
+            pagination={false}
+            dataSource={data} 
+            columns={columns}>
+          </Table>
+          <Pagination 
+            style={{marginTop:15,textAlign:'right'}}
+            showTotal={total => `共${total}条`}
+            total={pagination.total} 
+            current={pagination.pageNum}
+            defaultPageSize={pagination.pageSize}
+          />
+        </div>
+      </Card>
+    </div>
   )
 }

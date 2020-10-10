@@ -4,7 +4,6 @@ import moment from 'moment';
 import style from './index.scss';
 import {msgList,addmsg,giveStart} from '@/api/message';
 import { DislikeOutlined, LikeOutlined } from '@ant-design/icons';
-import Reply from './reply';
 
 const { TextArea } = Input;
 const Editor = ({ onChange, onSubmit, onPressEnter, submitting, value }) => (
@@ -32,8 +31,6 @@ export default class Index extends Component{
     },
     likes:0,
     dislikes:0,
-    ReplayData:{},
-    visible:false
   };
   
   componentDidMount(){
@@ -54,11 +51,6 @@ export default class Index extends Component{
     }
   };
 
-  reply = (e) =>{
-    this.setState({
-      ReplayData:e
-    })
-  }
 
   //获取历史留言数据
   getMsgList = async() =>{
@@ -82,8 +74,7 @@ export default class Index extends Component{
             <span onClick={()=>this.like(item,'dislike')}>
               {createElement(DislikeOutlined)}
               <span className="comment-action">{item.dislike}</span>
-            </span>,
-            <span onClick={()=>this.setState({ReplayData:item,visible:true})}>回复</span>
+            </span>
         ],
         author: item.username,
         avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
@@ -147,18 +138,6 @@ export default class Index extends Component{
     return false;
   }
 
-  reply = async (e) =>{
-    let {data} = await addmsg({
-      username:JSON.parse(localStorage.getItem('user')).username,
-      content:e.content,
-      date:new Date(),
-      parentId:this.state.ReplayData._id
-    })
-    if(data.code === 0){
-      this.getMsgList();
-    }
-  }
-
   render(){
     return(
       <div className={style.messagebox}>
@@ -204,11 +183,6 @@ export default class Index extends Component{
             }
           />
         </Card>
-        <Reply
-          show={this.state.visible}
-          onReply={this.reply}
-          onCancel={() => {this.setState({visible:false})}}
-        />
       </div>
     )
   }

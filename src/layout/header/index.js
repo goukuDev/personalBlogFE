@@ -37,7 +37,7 @@ export default function Index(props){
         onClick: ()=>{changeCollapsed(!collapsed)},
       })}
       <div>
-        <span style={{marginRight:'10px'}}>{JSON.parse(localStorage.getItem('user')).username}</span>
+        <span style={{marginRight:'10px'}}>{JSON.parse(localStorage.getItem('user')).name}</span>
         <Dropdown overlay={DropMenu} placement="bottomCenter" arrow>
           <Avatar 
           style={{
