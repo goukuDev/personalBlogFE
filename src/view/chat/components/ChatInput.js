@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {Button,Input} from 'antd';
 import style from './index.scss';
-const socket = require('socket.io-client')('http://localhost:8080')
+const socket = require('socket.io-client')('http://127.0.0.1:9527')
 
 const { TextArea } = Input;
 export default class ChatInput extends Component {

@@ -1,23 +1,34 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {Layout,Menu,Avatar,Dropdown} from 'antd';
 import {createHashHistory} from 'history';
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  UserOutlined
-} from '@ant-design/icons';
+import {DownOutlined} from '@ant-design/icons'; 
+import style from './index.scss';
 
-const history = createHashHistory();
+
 const {Header} = Layout;
 
-const outLogin = () =>{
-  localStorage.clear();
-  history.push('/login')
-}
+const history = createHashHistory();
+const pathname = history.location.pathname.split('/')[1];
+const img = require('@/assets/img/logo.jpg');
+const menuArray = [
+  {key:"home",name:"首页"},
+  {key:"movie",name:"影视"},
+  {key:"message",name:"留言板"},
+];
 
 
-export default function Index(props){
-  const {collapsed,changeCollapsed,changeCurrent} = props;
+
+
+export default function Index(){
+  const [current,setCurrent] = useState(pathname? pathname:'home');
+  const outLogin = () =>{
+    localStorage.clear();
+    history.push('/login')
+  }
+  const handleClick = e => {
+    history.push({pathname:`/${e.key}`});
+    setCurrent(e.key)
+  };
 
   const DropMenu = (
     <Menu>
@@ -30,23 +41,31 @@ export default function Index(props){
       </Menu.Item>
     </Menu>
   )
+  const DropMenuRouter = (
+    <Menu onClick={handleClick} selectedKeys={[current]} >
+      {menuArray.map(o=><Menu.Item key={o.key}>{o.name}</Menu.Item>)}
+    </Menu>
+  )
   return(
-    <Header className="site-layout-background" style={{ padding: 0,display:'flex',justifyContent:'space-between',alignItems:'center' }}>
-      {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-        className: 'trigger',
-        onClick: ()=>{changeCollapsed(!collapsed)},
-      })}
-      <div>
-        <span style={{marginRight:'10px'}}>{JSON.parse(localStorage.getItem('user')).name}</span>
-        <Dropdown overlay={DropMenu} placement="bottomCenter" arrow>
-          <Avatar 
-          style={{
-            marginRight:'40px',
-            cursor:'pointer'
-          }}
-          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+    <Header className={style.siteLayoutBackground}>
+      <div className={style.logo}>
+        <img src={img} alt='logo'/>
+        咖啡屋
+        <Dropdown overlay={DropMenuRouter} placement="bottomCenter">
+          <div className={style.DropdownRouter}>
+            {menuArray.filter(o=>o.key == current)[0].name}
+            <DownOutlined />
+          </div>
         </Dropdown>
       </div>
+      <Dropdown overlay={DropMenu} placement="bottomCenter">
+        <div className={style.Dropdown}>
+          <Avatar 
+          className={style.avatar}
+          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+          <span className={style.user}>{JSON.parse(localStorage.getItem('user')).name}</span>
+        </div>
+      </Dropdown>
     </Header>
   )
 }

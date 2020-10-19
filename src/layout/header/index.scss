@@ -1,0 +1,36 @@
+.siteLayoutBackground{
+  padding: 0 15px;
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  height: 50px;
+  line-height: 50px;
+  .logo{
+    height: 100%;
+    color: #fff;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    img{
+      height: 70%;
+      margin-right: 10px;
+    }
+    :global(.ant-dropdown-trigger){
+      margin-left: 10px;
+    }
+    .DropdownRouter{
+      color: #40a9ff;
+      cursor: pointer;
+    }
+  }
+  .Dropdown{
+    cursor: pointer;
+    .avatar{
+      background-color: #fff;
+    }
+    .user{
+      margin: 0 10px;
+      color: #fff;
+    }
+  }
+}

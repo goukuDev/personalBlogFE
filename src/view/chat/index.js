@@ -3,7 +3,7 @@ import Messages from 'Messages';
 import ChatInput from 'ChatInput';
 import {Card, List, Avatar} from 'antd';
 import style from './index.scss';
-const socket = require('socket.io-client')('http://localhost:8080')
+const socket = require('socket.io-client')('http://127.0.0.1:9527')
 
 export default class Index extends Component {
     constructor(props) {
