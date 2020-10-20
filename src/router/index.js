@@ -1,18 +1,29 @@
 import React from 'react';
+
+
+import Layout from '@/layout/layout';
 import Home from '@/view/home';
 import Movie from '@/view/movie';
-// import Chat from '@/view/chat';
+import User from '@/view/user/person';
 import Message from '@/view/message';
+
+
+import LoginLayout from '@/view/user';
 import {outRouter} from './router.config';
-import Layout from '@/layout/layout';
+
+
 import {HashRouter, Route, Switch, Redirect} from 'react-router-dom';
 
+/**
+ * 判断是否应该进入登录页面
+ * @param {*} param0 
+ */
 function AuthRoute({ roleName, component: Component, ...rest }) {
   return (
       <Route
           {...rest}
           render={props => {
-              return localStorage.getItem('token') && ['home','movie','chat','message'].includes(roleName) ? (
+              return localStorage.getItem('token') && ['home','movie','chat','message','user'].includes(roleName) ? (
                   <Layout>
                     <Component {...props} />
                   </Layout>
@@ -29,16 +40,35 @@ function AuthRoute({ roleName, component: Component, ...rest }) {
   );
 }
 
+/**
+ * 登录组件公共模块
+ * @param {*} param0 
+ */
+function LoginRoute({ component: Component, ...rest }) {
+  return (
+      <Route
+          {...rest}
+          render={props => {
+              return (
+                <LoginLayout>
+                  <Component {...props} />
+                </LoginLayout>
+              )
+          }}
+      />
+  );
+}
+
 export default function Index(){
   return(
     <HashRouter>
       <Switch>
-        { outRouter.map(item => <Route path={item.path}  component={item.component} key={item.path}/>) }
+        { outRouter.map(item => <LoginRoute path={item.path}  component={item.component} key={item.path}/>) }
         <AuthRoute exact roleName='home' path='/' component={Home}/>
         <AuthRoute roleName='home' path='/home' component={Home}/>
         <AuthRoute roleName='movie' path='/movie' component={Movie}/>
-        {/* <AuthRoute roleName='chat' path='/chat' component={Chat}/> */}
         <AuthRoute roleName='message' path='/message' component={Message}/>
+        <AuthRoute roleName='user' path='/user' component={User}/>
         <Redirect to='/404'/>
       </Switch>
     </HashRouter>

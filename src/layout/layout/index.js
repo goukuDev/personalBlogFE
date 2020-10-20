@@ -36,13 +36,13 @@ export default class Index extends Component{
   render(){
     return(
       <Layout className={style.layout}>
-        <Header></Header>
+        <Header props={this.props.children.props.location}></Header>
         <div className={style.container}>
           <Content>
             <React.Fragment>
               {this.props.children}
             </React.Fragment>
-            <Affix style={{ position: 'fixed', bottom: 40, right: 20 }}>
+            <Affix style={{ position: 'fixed', bottom: 48, right: 20 }}>
               <Button 
                 shape="round" 
                 type="primary" 

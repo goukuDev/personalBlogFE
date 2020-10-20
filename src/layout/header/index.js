@@ -1,14 +1,14 @@
-import React,{useState} from 'react';
-import {Layout,Menu,Avatar,Dropdown} from 'antd';
+import React,{useState,useEffect} from 'react';
+import {Layout,Menu,Avatar,Dropdown,Modal} from 'antd';
 import {createHashHistory} from 'history';
-import {DownOutlined} from '@ant-design/icons'; 
+import {DownOutlined,ExclamationCircleOutlined} from '@ant-design/icons'; 
 import style from './index.scss';
 
 
 const {Header} = Layout;
+const {confirm} = Modal;
 
 const history = createHashHistory();
-const pathname = history.location.pathname.split('/')[1];
 const img = require('@/assets/img/logo.jpg');
 const menuArray = [
   {key:"home",name:"首页"},
@@ -19,21 +19,43 @@ const menuArray = [
 
 
 
-export default function Index(){
-  const [current,setCurrent] = useState(pathname? pathname:'home');
+export default function Index({props}){
+  const [current,setCurrent] = useState('');
+
+  useEffect(()=>{
+    setCurrent(props.pathname.split('/')[1]? props.pathname.split('/')[1]:'home')
+  },[props])
+
   const outLogin = () =>{
-    localStorage.clear();
-    history.push('/login')
+    confirm({
+      title: '确定退出登录吗?',
+      icon: <ExclamationCircleOutlined />,
+      centered:true,
+      maskClosable:true,
+      content: '',
+      okText: '确定',
+      okType: 'danger',
+      cancelText: '取消',
+      onOk:()=> {
+        localStorage.clear();
+        history.push('/login')
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    })
   }
   const handleClick = e => {
     history.push({pathname:`/${e.key}`});
     setCurrent(e.key)
   };
-
+  const toUserCenter = () =>{
+    history.push({pathname:'/user'});
+  }
   const DropMenu = (
     <Menu>
       <Menu.Item key='user'>
-        <span>用户中心</span>
+        <span onClick={toUserCenter}>用户中心</span>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key='out'>
@@ -53,7 +75,7 @@ export default function Index(){
         咖啡屋
         <Dropdown overlay={DropMenuRouter} placement="bottomCenter">
           <div className={style.DropdownRouter}>
-            {menuArray.filter(o=>o.key == current)[0].name}
+            {!!menuArray.filter(o=>o.key == current).length? menuArray.filter(o=>o.key == current)[0].name:''}
             <DownOutlined />
           </div>
         </Dropdown>

@@ -49,7 +49,6 @@ export default function Forget(){
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             className={style.registerForm}>  
-                <h3>忘记密码</h3>  
                 <Form.Item
                   name="username"
                   rules={[

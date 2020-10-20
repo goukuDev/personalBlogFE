@@ -1,0 +1,22 @@
+.logbox{
+  background-image: linear-gradient(rgba(9,14,43,1), rgba(9,14,43,0.7));
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .header{
+    height: 45px;
+    color: #fff;
+    font-size: 15px;
+    line-height: 45px;
+    text-indent: 10px;
+    font-size: 18px;
+  }
+  .footer{
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    color: #ccc;
+    font-size: 12px;
+  }
+}

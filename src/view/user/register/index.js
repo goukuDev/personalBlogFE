@@ -49,7 +49,6 @@ export default function Register(){
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             className={style.registerForm}>  
-                <h3>注册</h3>  
                 <Form.Item
                   name="name"
                 >  
