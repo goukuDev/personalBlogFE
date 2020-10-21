@@ -21,11 +21,20 @@
         }
       }
       .right{
-        width: 500px;
+        width: 35%;
       }
-      // :global(.ant-comment){
-      //   width: 300px;
-      // }
+    }
+  }
+}
+@media(max-width: 1024px){
+  .messagebox{
+    .card{
+      :global(.ant-card-body){
+        flex-direction: column;
+        .right{
+          width: 55%;
+        }
+      }
     }
   }
 }

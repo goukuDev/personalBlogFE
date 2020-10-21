@@ -4,7 +4,7 @@ import React from 'react';
 import Layout from '@/layout/layout';
 import Home from '@/view/home';
 import Movie from '@/view/movie';
-import User from '@/view/user/person';
+import User from '@/view/user/user';
 import Message from '@/view/message';
 
 
