@@ -4,36 +4,16 @@
     height: 100%;
     :global(.ant-card-body){
       height: calc(100% - 58px);
-      display: flex;
       padding: 12px;
-      .left{
-        flex: 1;
-        height: 100%;
-        .commentlist{
-          height: calc(100% - 47px);
-          overflow: auto;
-          &::-webkit-scrollbar{
-            display: none;
-          }
-        };
-        :global(.ant-pagination){
-          height: 32px;
+      .commentlist{
+        height: calc(100% - 47px);
+        overflow: auto;
+        &::-webkit-scrollbar{
+          display: none;
         }
-      }
-      .right{
-        width: 35%;
-      }
-    }
-  }
-}
-@media(max-width: 1024px){
-  .messagebox{
-    .card{
-      :global(.ant-card-body){
-        flex-direction: column;
-        .right{
-          width: 55%;
-        }
+      };
+      :global(.ant-pagination){
+        height: 32px;
       }
     }
   }

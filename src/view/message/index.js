@@ -1,5 +1,5 @@
 import React,{Component,createElement} from 'react';
-import { Comment, Tooltip, List, Card, Form, Input, Button, message, Pagination } from 'antd';
+import { Comment, Tooltip, List, Card, Form, Input, Button, message, Pagination, Row, Col } from 'antd';
 import moment from 'moment';
 import style from './index.scss';
 import {msgList,addmsg,giveStart} from '@/api/message';
@@ -142,46 +142,50 @@ export default class Index extends Component{
     return(
       <div className={style.messagebox}>
         <Card title='留言板' className={style.card}>
-          <div className={style.left}>
-            <List
-              className={style.commentlist}
-              itemLayout="horizontal"
-              dataSource={this.state.data}
-              renderItem={item => (
-                <li>
-                  <Comment
-                    actions={item.actions}
-                    author={item.author}
-                    avatar={item.avatar}
-                    content={item.content}
-                    datetime={item.datetime}
+          <Row>
+            <Col xs={24} sm={24} md={18} lg={14} xl={10}>
+              <div className={style.left}>
+                <List
+                  itemLayout="horizontal"
+                  dataSource={this.state.data}
+                  renderItem={item => (
+                    <li>
+                      <Comment
+                        actions={item.actions}
+                        author={item.author}
+                        avatar={item.avatar}
+                        content={item.content}
+                        datetime={item.datetime}
+                      />
+                    </li>
+                  )}
+                />
+                <Pagination 
+                  style={{textAlign:'left',marginTop:'15px'}}
+                  showSizeChanger
+                  showTotal={total => `共${total}条`}
+                  total={this.state.pagination.total} 
+                  current={this.state.pagination.pageNum}
+                  defaultPageSize={this.state.pagination.pageSize}
+                  pageSizeOptions={this.state.pagination.pageSizeOptions}
+                  onChange={this.onChange}
+                />
+              </div>
+            </Col>
+            <Col xs={24} sm={18} md={14} lg={9} xl={6}>
+              <Comment
+                content={
+                  <Editor
+                    onChange={(e)=>this.setState({value:e.target.value})}
+                    onSubmit={this.handleSubmit}
+                    onPressEnter={this.handleKeyPress}
+                    submitting={this.state.submitting}
+                    value={this.state.value}
                   />
-                </li>
-              )}
-            />
-            <Pagination 
-              style={{textAlign:'left',marginTop:'15px'}}
-              showSizeChanger
-              showTotal={total => `共${total}条`}
-              total={this.state.pagination.total} 
-              current={this.state.pagination.pageNum}
-              defaultPageSize={this.state.pagination.pageSize}
-              pageSizeOptions={this.state.pagination.pageSizeOptions}
-              onChange={this.onChange}
-            />
-          </div>
-          <Comment
-            className={style.right}
-            content={
-              <Editor
-                onChange={(e)=>this.setState({value:e.target.value})}
-                onSubmit={this.handleSubmit}
-                onPressEnter={this.handleKeyPress}
-                submitting={this.state.submitting}
-                value={this.state.value}
+                }
               />
-            }
-          />
+            </Col>
+          </Row>
         </Card>
       </div>
     )

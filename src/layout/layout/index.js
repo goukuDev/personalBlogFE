@@ -5,7 +5,7 @@ import {addfeedback} from '@/api/feedback';
 import style from './index.scss';
 
 const {TextArea} = Input;
-const {Content} = Layout;
+const {Content,Footer} = Layout;
 
 export default class Index extends Component{
   state = {
@@ -52,6 +52,9 @@ export default class Index extends Component{
               </Button>
             </Affix>
           </Content>
+          <Footer>
+            Copyright &copy; {this.state.year} shiyh.top 版权所有 <a href='https://beian.miit.gov.cn' target='_blank'>浙ICP备2020037581号-1</a>
+          </Footer>
         </div>
         <Modal
           title="反馈意见"
