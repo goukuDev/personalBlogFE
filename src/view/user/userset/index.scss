@@ -1,0 +1,18 @@
+.PageHeader{
+  background: #fff;
+  .col{
+    .tag{
+      margin-top: 20px;
+    }
+  }
+}
+@media (max-width:768px){
+  .PageHeader{
+    :global(.ant-row){
+      flex-direction: column-reverse;
+      .col{
+        padding: 20px 0;
+      }
+    }
+  }
+}

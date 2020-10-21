@@ -4,7 +4,8 @@ import React from 'react';
 import Layout from '@/layout/layout';
 import Home from '@/view/home';
 import Movie from '@/view/movie';
-import User from '@/view/user/user';
+import UserSet from '@/view/user/userset';
+import UserCenter from '@/view/user/usercenter';
 import Message from '@/view/message';
 
 
@@ -13,6 +14,7 @@ import {outRouter} from './router.config';
 
 
 import {HashRouter, Route, Switch, Redirect} from 'react-router-dom';
+
 
 /**
  * 判断是否应该进入登录页面
@@ -23,7 +25,7 @@ function AuthRoute({ roleName, component: Component, ...rest }) {
       <Route
           {...rest}
           render={props => {
-              return localStorage.getItem('token') && ['home','movie','chat','message','user'].includes(roleName) ? (
+              return localStorage.getItem('token') && ['home','movie','chat','message','userset','usercenter'].includes(roleName) ? (
                   <Layout>
                     <Component {...props} />
                   </Layout>
@@ -68,7 +70,8 @@ export default function Index(){
         <AuthRoute roleName='home' path='/home' component={Home}/>
         <AuthRoute roleName='movie' path='/movie' component={Movie}/>
         <AuthRoute roleName='message' path='/message' component={Message}/>
-        <AuthRoute roleName='user' path='/user' component={User}/>
+        <AuthRoute roleName='userset' path='/userset' component={UserSet}/>
+        <AuthRoute roleName='usercenter' path='/usercenter' component={UserCenter}/>
         <Redirect to='/404'/>
       </Switch>
     </HashRouter>

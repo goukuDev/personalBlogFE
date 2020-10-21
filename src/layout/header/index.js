@@ -49,13 +49,14 @@ export default function Index({props}){
     history.push({pathname:`/${e.key}`});
     setCurrent(e.key)
   };
-  const toUserCenter = () =>{
-    history.push({pathname:'/user'});
-  }
   const DropMenu = (
     <Menu>
-      <Menu.Item key='user'>
-        <span onClick={toUserCenter}>用户中心</span>
+      <Menu.Item key='usercenter'>
+        <span onClick={()=>{history.push({pathname:'/usercenter'})}}>个人中心</span>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key='userset'>
+        <span onClick={()=>{history.push({pathname:'/userset'})}}>个人设置</span>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key='out'>

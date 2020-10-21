@@ -2,12 +2,25 @@ import React, {Component} from 'react';
 import { Tag, Input } from 'antd';
 import { TweenOneGroup } from 'rc-tween-one';
 import { PlusOutlined } from '@ant-design/icons';
+import {getuser} from '@/api/user';
 
 export default class Index extends Component {
   state = {
-    tags: this.props.tags,
+    tags: [],
     inputVisible: false,
     inputValue: '',
+  };
+
+  componentDidMount(){
+    this.getUser();
+  }
+
+  getUser = async () =>{
+    let id = JSON.parse(localStorage.getItem('user')).userid;
+    let {data} = await getuser({id});
+    if(data.code === 0){
+      this.setState({tags:data.data[0].personalTags});
+    }
   };
 
   handleClose = removedTag => {

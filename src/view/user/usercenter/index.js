@@ -5,15 +5,15 @@ import {
   Input, 
   Select,
   Button, 
-  Upload, 
   message,
   Row, 
-  Col
+  Col,
+  Spin
 } from 'antd';
 import axios from 'axios';
-import { UploadOutlined } from '@ant-design/icons';
 import {createHashHistory} from 'history';
 import Tags from 'tags';
+import Upload from 'upload';
 import style from './index.scss';
 import {getuser,update} from '@/api/user';
 
@@ -41,43 +41,8 @@ export default function Index(){
   const [form] = Form.useForm();
 
   const [province,setProvince] = useState([]);
-  const [tags,setTags] = useState([])
-
-
-  const props = {
-    name: 'file',
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    headers: {
-      authorization: 'authorization-text',
-    },
-    onChange(info) {
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
-  const onBack = () => {
-    history.go(-1)
-  };
-  const onFinish = async (values) => {
-    let {admin,username} = form.getFieldValue();
-    let d = Object.assign({},values,{
-              admin,
-              username,
-              personalTags:tags,
-              id:JSON.parse(localStorage.getItem('user')).userid
-            })
-    let {data} = await update(d);
-    if(data.code === 0){
-      message.success('更新成功');
-      getUser();
-    }
-  };
+  const [tags,setTags] = useState([]);
+  const [loading,setLoading] = useState(true);
 
 
 
@@ -89,9 +54,7 @@ export default function Index(){
       form.setFieldsValue({
         ...data.data[0]
       });
-      setTags(data.data[0].personalTags);
-      console.log(data.data)
-      console.log(tags)
+      setLoading(false);
     }
   };
   const getProvince = () =>{
@@ -108,11 +71,26 @@ export default function Index(){
   },[]);
 
 
+
+  const onFinish = async (values) => {
+    let {admin,username} = form.getFieldValue();
+    let d = Object.assign({},values,{
+              admin,
+              username,
+              personalTags:tags,
+              id:JSON.parse(localStorage.getItem('user')).userid
+            })
+    let {data} = await update(d);
+    if(data.code === 0){
+      message.success('更新成功');
+      getUser();
+    }
+  };
   return(
-    <>
+    <Spin spinning={loading}>
       <PageHeader
         className={style.PageHeader}
-        onBack={onBack}
+        onBack={()=>{history.go(-1)}}
         title="返回"
       >
         <Row>
@@ -216,19 +194,13 @@ export default function Index(){
           </Form>
         </Col>
         <Col xs={24} sm={24} md={6} lg={6} xl={6} className={style.col}>
-          <div className={style.uploadAvatar}>
-            <div className={style.headerAvatar}>头像</div>
-            <img src='https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' alt='avatar'></img>
-            <Upload {...props}>
-              <Button icon={<UploadOutlined />}>更换头像</Button>
-            </Upload>
-          </div>
+          <Upload/>
           <div className={style.tag}>
             <Tags tags={tags} getTags={(e)=>setTags(e)}></Tags>
           </div>
         </Col>
         </Row>
       </PageHeader>
-    </>
+    </Spin>
   )
 }

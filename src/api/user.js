@@ -59,3 +59,11 @@ export function update(data){
     data
   })
 }
+//替换用户头像
+export function uploadimg(data){
+  return request({
+    url: '/api/user/upload',
+    method: 'post',
+    data
+  })
+}

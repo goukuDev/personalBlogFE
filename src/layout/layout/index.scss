@@ -13,7 +13,7 @@
     overflow: auto;
     :global(.ant-layout-content){
       min-height: calc(100% - 50px);
-      padding: 10px;
+      padding: 20px 10px 0;
     }
     :global(.ant-layout-footer){
       text-align: center;

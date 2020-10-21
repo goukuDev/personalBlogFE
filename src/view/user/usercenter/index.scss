@@ -1,14 +1,6 @@
 .PageHeader{
   background: #fff;
   .col{
-    .uploadAvatar{
-      display: flex;
-      flex-direction: column;
-      img{
-        width:120px;
-        margin: 20px 0 20px 0;
-      }
-    }
     .tag{
       margin-top: 20px;
     }
@@ -20,11 +12,6 @@
       flex-direction: column-reverse;
       .col{
         padding: 20px 0;
-        .uploadAvatar{
-          .headerAvatar{
-            display: none;
-          }
-        }
       }
     }
   }
