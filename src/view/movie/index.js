@@ -32,7 +32,7 @@ export default class Index extends Component{
       loading:true
     });
     let {data} = await getMovieList({page:pageNum,pageSize:pageSize});
-    if(data.code === '0'){
+    if(data.code === 0){
       let pagination = Object.assign({},this.state.pagination,{
         total:data.total
       });
@@ -56,7 +56,7 @@ export default class Index extends Component{
       cancelText: '取消',
       onOk:async ()=> {
         let {data} = await removemovie({id:row.id});
-        if(data.code === '0'){
+        if(data.code === 0){
           message.success('删除成功');
           this.getlist();
         }
@@ -69,7 +69,7 @@ export default class Index extends Component{
   //编辑
   editMovie = async (row) =>{
     let {data} = await getMovieById({id:row.id});
-    if(data.code === '0'){
+    if(data.code === 0){
       this.setState({
         visible:true,
         movieData:data.data[0]
@@ -89,7 +89,7 @@ export default class Index extends Component{
     }else{
       res = await addmovie(movieData);
     }
-    if(res.data.code === '0'){
+    if(res.data.code === 0){
       message.success(`${values.id? '编辑成功':'新增成功'}`);
       this.setState({visible:false})
       this.getlist();

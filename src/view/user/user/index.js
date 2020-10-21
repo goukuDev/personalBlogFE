@@ -8,13 +8,14 @@ import {
   Upload, 
   message,
   Row, 
-  Col,
-  Tag
+  Col
 } from 'antd';
 import axios from 'axios';
-import { UploadOutlined,PlusOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
 import {createHashHistory} from 'history';
+import Tags from 'tags';
 import style from './index.scss';
+import {getuser,update} from '@/api/user';
 
 
 const {Option} = Select;
@@ -37,10 +38,10 @@ const phoneReg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
 
 
 export default function Index(){
+  const [form] = Form.useForm();
+
   const [province,setProvince] = useState([]);
-  const [inputVisible,setInputVisible] = useState(false);
-  const [inputValue,setInputValue] = useState('');
-  const [tags,setTags] = useState(['开发攻城狮','有想法','爱看电影、旅游'])
+  const [tags,setTags] = useState([])
 
 
   const props = {
@@ -63,14 +64,36 @@ export default function Index(){
   const onBack = () => {
     history.go(-1)
   };
-  const onFinish = (values) => {
-    console.log(values);
+  const onFinish = async (values) => {
+    let {admin,username} = form.getFieldValue();
+    let d = Object.assign({},values,{
+              admin,
+              username,
+              personalTags:tags,
+              id:JSON.parse(localStorage.getItem('user')).userid
+            })
+    let {data} = await update(d);
+    if(data.code === 0){
+      message.success('更新成功');
+      getUser();
+    }
   };
 
 
 
 
-
+  const getUser = async () =>{
+    let id = JSON.parse(localStorage.getItem('user')).userid;
+    let {data} = await getuser({id});
+    if(data.code === 0){
+      form.setFieldsValue({
+        ...data.data[0]
+      });
+      setTags(data.data[0].personalTags);
+      console.log(data.data)
+      console.log(tags)
+    }
+  };
   const getProvince = () =>{
     axios.get('https://proapi.azurewebsites.net//api/geographic/province')
     .then(res=>{
@@ -81,27 +104,10 @@ export default function Index(){
   }
   useEffect(()=>{
     getProvince();
+    getUser();
   },[]);
 
 
-
-  const handleInputChange = e => {
-    setInputValue(e.target.value);
-  };
-  const handleInputConfirm = () => {
-    if (inputValue && tags.indexOf(inputValue) === -1) {
-      tags = [...tags, inputValue];
-    }
-    console.log(tags);
-    this.setState({
-      tags,
-      inputVisible: false,
-      inputValue: '',
-    });
-  };
-  const showInput = () => {
-    setInputVisible(true);
-  };
   return(
     <>
       <PageHeader
@@ -112,14 +118,12 @@ export default function Index(){
         <Row>
         <Col xs={24} sm={24} md={16} lg={16} xl={10}>
           <Form 
+            form={form}
             {...layout} 
             layout="vertical" 
             name="nest-messages" 
             onFinish={onFinish} 
             validateMessages={validateMessages}
-            initialValues={{
-              country:'china'
-            }}
           >
             <Form.Item
               name="name"
@@ -145,7 +149,7 @@ export default function Index(){
               <Input />
             </Form.Item>
             <Form.Item 
-              name="personalProfile" 
+              name="personalmsg" 
               label="个人简介"
               rules={[
                 {
@@ -170,8 +174,14 @@ export default function Index(){
               rules={[{ required: true, message: '请选择所在省!' }]}
               className="province"
             >
-              <Select placeholder="请选择所在省">
-                {province.map(o=><Option value={o.id} key={o.id}>{o.name}</Option>)}
+              <Select 
+                placeholder="请选择所在省" 
+                showSearch
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+              >
+                {province.map(o=><Option value={o.name} key={o.name}>{o.name}</Option>)}
               </Select>
             </Form.Item>
             <Form.Item
@@ -214,27 +224,7 @@ export default function Index(){
             </Upload>
           </div>
           <div className={style.tag}>
-            {tags.map((o,index)=><Tag key={index}>{o}</Tag>)}
-            {/* <Tag color="#2db7f5">开发攻城狮</Tag>
-            <Tag color="#87d068">有想法</Tag>
-            <Tag color="#108ee9">爱看电影、旅游</Tag> */}
-            {inputVisible && (
-              <Input
-                ref={saveInputRef}
-                type="text"
-                size="small"
-                className="tag-input"
-                value={inputValue}
-                onChange={handleInputChange}
-                onBlur={handleInputConfirm}
-                onPressEnter={handleInputConfirm}
-              />
-            )}
-            {!inputVisible && (
-              <Tag className="site-tag-plus" onClick={showInput}>
-                <PlusOutlined />
-              </Tag>
-            )}
+            <Tags tags={tags} getTags={(e)=>setTags(e)}></Tags>
           </div>
         </Col>
         </Row>

@@ -1,12 +1,8 @@
 import React,{useState,useEffect} from 'react';
 import {getUserList} from '@/api/user';
-import {Table,Pagination,Modal,message,Card} from 'antd';
-import {
-  ExclamationCircleOutlined
-} from '@ant-design/icons';
+import {Table,Pagination,Modal,Card} from 'antd';
 import style from './index.scss';
 
-const {confirm} = Modal;
 export default function Index(){
   const columns = [
     {
@@ -40,7 +36,7 @@ export default function Index(){
   const getData = async ()=>{
     setLoading(true);
     let {data} = await getUserList();
-    if(data.code === '0'){
+    if(data.code === 0){
       setData(data.data);
       setLoading(false);
       setPagination({

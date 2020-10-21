@@ -42,3 +42,20 @@ export function getUserList(params){
     cache:false
   })
 }
+//获取用户信息
+export function getuser(params){
+  return request({
+    url: '/api/user/getuser',
+    method: 'get',
+    params,
+    cache:false
+  })
+}
+//更新个人信息
+export function update(data){
+  return request({
+    url: '/api/user/update',
+    method: 'post',
+    data
+  })
+}
