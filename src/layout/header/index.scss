@@ -11,15 +11,23 @@
     font-size: 15px;
     display: flex;
     align-items: center;
-    img{
+    a{
+      display: flex;
       height: 70%;
       margin-right: 10px;
+      img{
+        height: 100%;
+      }
     }
-    :global(.ant-dropdown-trigger){
-      margin-left: 10px;
+    :global(.ant-menu){
+      background: none;
+      color: #fff;
+      :global(.ant-menu-item-selected){
+        color: #1890ff;
+      }
     }
     .DropdownRouter{
-      color: #40a9ff;
+      margin-left: 15px;
       cursor: pointer;
     }
   }

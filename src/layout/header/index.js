@@ -1,7 +1,15 @@
 import React,{useState,useEffect} from 'react';
-import {Layout,Menu,Avatar,Dropdown,Modal} from 'antd';
+import {
+  Layout,
+  Menu,
+  Avatar,
+  Dropdown,
+  Modal,
+  Col,
+  Row,
+} from 'antd';
 import {createHashHistory} from 'history';
-import {DownOutlined,ExclamationCircleOutlined} from '@ant-design/icons'; 
+import {MenuOutlined,ExclamationCircleOutlined} from '@ant-design/icons'; 
 import style from './index.scss';
 
 
@@ -72,14 +80,24 @@ export default function Index({props}){
   return(
     <Header className={style.siteLayoutBackground}>
       <div className={style.logo}>
-        <img src={img} alt='logo'/>
-        咖啡屋
-        <Dropdown overlay={DropMenuRouter} placement="bottomCenter">
-          <div className={style.DropdownRouter}>
-            {!!menuArray.filter(o=>o.key == current).length? menuArray.filter(o=>o.key == current)[0].name:''}
-            <DownOutlined />
-          </div>
-        </Dropdown>
+        <a href='/'>
+          <img src={img} alt='logo'/>
+        </a>
+        <Row>
+          <Col xs={0} sm={0} md={24} lg={24} xl={24}>
+            <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+              {menuArray.map(o=><Menu.Item key={o.key}>{o.name}</Menu.Item>)}
+            </Menu>
+          </Col>
+          {/* 小屏时候显示隐藏按钮 */}
+          <Col xs={24} sm={24} md={0} lg={0} xl={0}>
+            <Dropdown overlay={DropMenuRouter} placement="bottomCenter" trigger={['click']}>
+              <div className={style.DropdownRouter}>
+                <MenuOutlined />
+              </div>
+            </Dropdown>
+          </Col>
+        </Row>
       </div>
       <Dropdown overlay={DropMenu} placement="bottomCenter">
         <div className={style.Dropdown}>
