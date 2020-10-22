@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
-import {Layout,Affix, Button, Modal, Input, message} from 'antd';
+import {Layout,Affix, Button, Modal, Input, message, Tooltip} from 'antd';
+import {IssuesCloseOutlined,WechatOutlined} from '@ant-design/icons'
 import Header from '@/layout/header';
 import {addfeedback} from '@/api/feedback';
 import style from './index.scss';
@@ -43,17 +44,27 @@ export default class Index extends Component{
               {this.props.children}
             </React.Fragment>
             <Affix style={{ position: 'fixed', bottom: 48, right: 20 }}>
-              <Button 
-                shape="round" 
-                type="primary" 
-                onClick={()=>this.setState({visible:true})} 
-                >
-                  反馈
-              </Button>
+              <Tooltip placement="left" title={<img style={{width:100,height:100}} src={require('@/assets/img/wx.jpg')}></img>}>
+                <Button 
+                  type="primary" 
+                  shape="circle"
+                  icon={<WechatOutlined />}
+                  >
+                </Button>
+              </Tooltip>
+              <Tooltip placement="left" title='反馈'>
+                <Button 
+                  type="primary" 
+                  shape="circle"
+                  onClick={()=>this.setState({visible:true})} 
+                  icon={<IssuesCloseOutlined/>}
+                  >
+                </Button>
+              </Tooltip>
             </Affix>
           </Content>
           <Footer>
-            Copyright &copy; {this.state.year} shiyh.top 版权所有 <a href='https://beian.miit.gov.cn' target='_blank'>浙ICP备2020037581号-1</a>
+            Copyright &copy; {this.state.year} shiyh.top 版权所有 <a href='https://beian.miit.gov.cn' target='_blank'>浙ICP备2020037581号</a>
           </Footer>
         </div>
         <Modal

@@ -1,18 +1,21 @@
 .PageHeader{
   background: #fff;
-  .col{
-    .tag{
-      margin-top: 20px;
+  :global(.ant-col){
+    text-align: center;
+    .avatarImg{
+      width: 104px;
+      height: 104px;
     }
-  }
-}
-@media (max-width:768px){
-  .PageHeader{
-    :global(.ant-row){
-      flex-direction: column-reverse;
-      .col{
-        padding: 20px 0;
-      }
+    h3{
+      margin: 10px auto;
+      font-weight:bold;
+    }
+    div{
+      margin-bottom: 10px;
+    }
+    h4{
+      text-align: left;
+      padding: 0 10%;
     }
   }
 }
