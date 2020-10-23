@@ -6,6 +6,7 @@ import CollectionCreateForm from './CollectionCreateForm';
 import style from './index.scss';
 
 const {confirm} = Modal;
+const userId = JSON.parse(localStorage.getItem('user')).userid;
 export default class Index extends Component{
   constructor(props){
     super(props);
@@ -31,7 +32,7 @@ export default class Index extends Component{
     this.setState({
       loading:true
     });
-    let {data} = await getMovieList({page:pageNum,pageSize:pageSize});
+    let {data} = await getMovieList({page:pageNum,pageSize:pageSize,userId});
     if(data.code === 0){
       let pagination = Object.assign({},this.state.pagination,{
         total:data.total
@@ -82,6 +83,7 @@ export default class Index extends Component{
       ticketPrice: values.ticketPrice? values.ticketPrice : 40,
       highPraiseRate: values.highPraiseRate? values.highPraiseRate : 0.6,
       score: values.score? values.score : 60,
+      userId
     })
     let res;
     if(!!values.id){
@@ -145,7 +147,7 @@ export default class Index extends Component{
     return (
       <div className={style.moviebox}>
         <Card 
-        title="电影回收站" 
+        title="电影收集" 
         extra={
           <Button type="primary" onClick={()=>{this.setState({visible:true,movieData:{}})}}>新增</Button>
         } 

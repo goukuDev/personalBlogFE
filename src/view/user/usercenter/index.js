@@ -47,24 +47,41 @@ export default function Index(){
             <img src={avatarImg} alt='avatar' className={style.avatarImg}></img>
             <h3>{Data.name}</h3>
             <div>{Data.personalmsg}</div>
-            <div>
-              <HomeOutlined />
-              &nbsp;&nbsp;&nbsp;
-              {`${Data.country}-${Data.location}`}
-            </div>
+            {
+              Data.country?
+              <div>
+                <HomeOutlined />
+                &nbsp;&nbsp;&nbsp;
+                {`${Data.country}-${Data.location}`}
+              </div>
+              :
+              null
+            }
             <div>
               <MobileOutlined />
               &nbsp;&nbsp;&nbsp;
               {Data.phone}
             </div>
-            <div>
-              <MailOutlined />
-              &nbsp;&nbsp;&nbsp;
-              {Data.email}
-            </div>
+            {
+              Data.email?
+              <div>
+                <MailOutlined />
+                &nbsp;&nbsp;&nbsp;
+                {Data.email}
+              </div>
+              :
+              null
+            }
             <Divider dashed={true}/>
-            <h4>标签</h4>
-            {Data.personalTags && Data.personalTags.map((o,index)=><Tag key={index}>{o}</Tag>)}
+            {
+              Data.personalTags && !!Data.personalTags.length?
+              <div>
+                <h4>标签</h4>
+                {Data.personalTags && Data.personalTags.map((o,index)=><Tag key={index}>{o}</Tag>)}
+              </div>
+              :
+              null
+            }
           </Col>
         </Row>
       </PageHeader>
