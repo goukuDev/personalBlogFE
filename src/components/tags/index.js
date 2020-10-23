@@ -19,6 +19,7 @@ export default class Index extends Component {
     let id = JSON.parse(localStorage.getItem('user')).userid;
     let {data} = await getuser({id});
     if(data.code === 0){
+      this.props.getTags(data.data[0].personalTags);
       this.setState({tags:data.data[0].personalTags});
     }
   };

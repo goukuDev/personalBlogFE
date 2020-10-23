@@ -196,7 +196,7 @@ export default function Index(){
         <Col xs={24} sm={24} md={6} lg={6} xl={6} className={style.col}>
           <Upload/>
           <div className={style.tag}>
-            <Tags tags={tags} getTags={(e)=>setTags(e)}></Tags>
+            <Tags getTags={(e)=>setTags(e)}></Tags>
           </div>
         </Col>
         </Row>

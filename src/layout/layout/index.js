@@ -43,7 +43,7 @@ export default class Index extends Component{
             <React.Fragment>
               {this.props.children}
             </React.Fragment>
-            <Affix style={{ position: 'fixed', bottom: 48, right: 20 }}>
+            <Affix style={{ position: 'fixed', bottom: 88, right: 20 }}>
               <Tooltip placement="left" title={<img style={{width:100,height:100}} src={require('@/assets/img/wx.jpg')}></img>}>
                 <Button 
                   type="primary" 
@@ -52,6 +52,8 @@ export default class Index extends Component{
                   >
                 </Button>
               </Tooltip>
+            </Affix>
+            <Affix style={{ position: 'fixed', bottom: 48, right: 20 }}>
               <Tooltip placement="left" title='反馈'>
                 <Button 
                   type="primary" 

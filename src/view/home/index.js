@@ -27,11 +27,6 @@ export default function Index(){
   ]
   const [data,setData] = useState([]);
   const [loading,setLoading] = useState(false);
-  const [pagination,setPagination] = useState({
-    total: 0,
-    pageNum: 1,
-    pageSize: 10
-  });
 
   const getData = async ()=>{
     setLoading(true);
@@ -39,10 +34,6 @@ export default function Index(){
     if(data.code === 0){
       setData(data.data);
       setLoading(false);
-      setPagination({
-        ...pagination,
-        total:data.data.length
-      })
     }
   };
   useEffect(()=>{
@@ -59,13 +50,6 @@ export default function Index(){
             dataSource={data} 
             columns={columns}>
           </Table>
-          <Pagination 
-            style={{marginTop:15,textAlign:'right'}}
-            showTotal={total => `共${total}条`}
-            total={pagination.total} 
-            current={pagination.pageNum}
-            defaultPageSize={pagination.pageSize}
-          />
         </div>
       </Card>
     </div>
