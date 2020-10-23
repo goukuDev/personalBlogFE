@@ -12,7 +12,7 @@ const Editor = ({ onChange, onSubmit, onPressEnter, submitting, value }) => (
       <TextArea rows={4} onChange={onChange} value={value} onPressEnter={onPressEnter} placeholder="发送/回车提交"/>
     </Form.Item>
     <Form.Item>
-      <Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary">
+      <Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary" disabled={!value}>
         留言
       </Button>
     </Form.Item>
@@ -100,8 +100,6 @@ export default class Index extends Component{
 
   //发布留言
   handleSubmit = async() =>{
-    if (!this.state.value) return message.error('请输入留言内容');
-
     this.setState({
       submitting: true,
     });
