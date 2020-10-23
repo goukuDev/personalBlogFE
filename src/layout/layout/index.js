@@ -72,6 +72,7 @@ export default class Index extends Component{
         <Modal
           title="反馈意见"
           centered
+          maskClosable={false}
           visible={this.state.visible}
           onOk={this.onOk}
           onCancel={() => this.setState({visible:false})}
