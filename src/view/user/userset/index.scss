@@ -1,8 +1,11 @@
-.PageHeader{
-  background: #fff;
-  .col{
-    .tag{
-      margin-top: 20px;
+:global(.ant-spin-nested-loading){
+  padding: 20px 10px 0;
+  .PageHeader{
+    background: #fff;
+    .col{
+      .tag{
+        margin-top: 20px;
+      }
     }
   }
 }

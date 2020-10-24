@@ -4,7 +4,6 @@
  * 
  */
 import Home from '@/view/home';
-import About from '@/view/about';
 import Movie from '@/view/movie';
 import Login from '@/view/user/login';
 import Register from '@/view/user/register';
@@ -16,11 +15,6 @@ const mainRouter = [
     path:'/home',
     component:Home,
     roleName:'home',
-  },
-  {
-    path:'/about',
-    component:About,
-    roleName:'about',
   },
   {
     path:'/movie',

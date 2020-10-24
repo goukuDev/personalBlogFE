@@ -1,16 +1,16 @@
 import React,{useState,useEffect} from 'react';
-import {getuser} from '@/api/user';
+import {getuserMsg} from '@/api/user';
 import Admin from 'admin';
 import NoAdmin from 'noadmin';
 import style from './index.scss';
+import {getUser} from '@/utils/util';
 
 export default function Index(){
   const [admin,setAdmin] = useState(false);
 
   const getData = async ()=>{
-    let {userid} = JSON.parse(localStorage.getItem('user'));
-    let res = await getuser({id:userid});
-    if(res.data.code === 0){
+    let res = await getuserMsg({id:getUser().userid});
+    if(res.data.code === 0 && !!res.data.data.length){
       setAdmin(res.data.data[0].admin);
     }
   };

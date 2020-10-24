@@ -22,6 +22,7 @@
     :global(.ant-menu){
       background: none;
       color: #fff;
+      border-bottom: none;
       :global(.ant-menu-item-selected){
         color: #1890ff;
       }
@@ -31,14 +32,37 @@
       cursor: pointer;
     }
   }
-  .Dropdown{
-    cursor: pointer;
-    .avatar{
-      background-color: #fff;
+  .right{
+    display: flex;
+    align-items: center;
+    :global(.ant-row){
+      :global(.ant-menu){
+        background: none;
+        color: #fff;
+        border-bottom: none;
+        :global(.ant-menu-item-selected){
+          color: #1890ff;
+        }
+      }
     }
-    .user{
-      margin: 0 10px;
-      color: #fff;
+    .Dropdown{
+      cursor: pointer;
+      margin-left: 20px;
+      .avatar{
+        background-color: #fff;
+      }
+      .user{
+        margin: 0 10px;
+        color: #fff;
+      }
+    }
+    :global(.ant-drawer){
+      :global(.ant-menu){
+        border-right: none;
+        :global(.ant-menu-item-selected){
+          color: #1890ff;
+        }
+      }
     }
   }
 }

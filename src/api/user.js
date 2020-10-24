@@ -43,7 +43,7 @@ export function getUserList(params){
   })
 }
 //获取用户信息
-export function getuser(params){
+export function getuserMsg(params){
   return request({
     url: '/api/user/getuser',
     method: 'get',

@@ -3,28 +3,37 @@ import { Table,Modal,message,Divider,Button,Pagination,Card} from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import {getMovieList,addmovie,removemovie,getMovieById,updateMovie} from '@/api/movie';
 import CollectionCreateForm from './CollectionCreateForm';
+import axios from 'axios';
+import qs from 'qs';
+import {getUser} from '@/utils/util';
 import style from './index.scss';
 
 const {confirm} = Modal;
-const userId = JSON.parse(localStorage.getItem('user')).userid;
+const userId = getUser().userid;
 export default class Index extends Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      data:[],
-      loading:false,
-      visible:false,
-      pagination:{
-        total: 0,
-        pageNum: 1,
-        pageSize: 10,
-        pageSizeOptions: ['1', '10', '20', '50', '100'],
-      },
-      movieData:{}
-    }
+  state = {
+    data:[],
+    loading:false,
+    visible:false,
+    pagination:{
+      total: 0,
+      pageNum: 1,
+      pageSize: 10,
+      pageSizeOptions: ['1', '10', '20', '50', '100'],
+    },
+    movieData:{}
   }
   componentDidMount(){
     this.getlist();
+  }
+  getmusic = async() => {
+    // 获取音乐数据，暂时还没实现
+    let data = {
+      params:'42vJprhdMmJDraTyEiXXlWCQ0pwgVAFLOndgv0XPTGScsvHRFL+NOwo4TeET3j4zEjpjMd2r1LaeFCqAWOZe5X8+oeH4gTjea/Rvm00EmxM=',
+      encSecKey:'a4bb666bb4f1195e89da9723eea38cde0a09f3ef62fdac90015d45b173f82fe5cb66fab6bceecb7f49b686a739121c4ed668f9c3a00969dead548223861b6246fa6b0d97f074547a196524ffe0cd5ac2463d8e249df3395e3edec4327b9e2f71b08f70e9bfe3357e801fd456710f2fa10c122a955b084127d7d34b223178ad3c'
+    }
+    const instance = axios.create({ headers: {'content-type': 'application/x-www-form-urlencoded'} });
+    instance.post(`/music/weapi/song/enhance/player/url`,qs.stringify(data)).then(res => console.log(res));
   }
   //获取电影列表数据
   getlist = async () =>{

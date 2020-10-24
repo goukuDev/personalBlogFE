@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import { Tag, Input } from 'antd';
 import { TweenOneGroup } from 'rc-tween-one';
 import { PlusOutlined } from '@ant-design/icons';
-import {getuser} from '@/api/user';
+import {getuserMsg} from '@/api/user';
+import {getUser} from '@/utils/util';
 
 export default class Index extends Component {
   state = {
@@ -12,12 +13,12 @@ export default class Index extends Component {
   };
 
   componentDidMount(){
-    this.getUser();
+    this.UserMsg();
   }
 
-  getUser = async () =>{
-    let id = JSON.parse(localStorage.getItem('user')).userid;
-    let {data} = await getuser({id});
+  UserMsg = async () =>{
+    let {userid} = getUser();
+    let {data} = await getuserMsg({id:userid});
     if(data.code === 0){
       this.props.getTags(data.data[0].personalTags);
       this.setState({tags:data.data[0].personalTags});

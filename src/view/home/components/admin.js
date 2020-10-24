@@ -48,17 +48,20 @@ export default class Index extends Component{
       }
     ];
     return(
-      <Card title='用户' className={style.card}>
-        <div className={style.tablebox}>
-          <Table 
-            loading={this.state.loading}
-            rowKey={(row) => row._id} 
-            pagination={false}
-            dataSource={this.state.data} 
-            columns={columns}>
-          </Table>
-        </div>
-      </Card>
+      <>
+        <Card title='用户' className={style.card}>
+          <div className={style.tablebox}>
+            <Table 
+              loading={this.state.loading}
+              rowKey={(row) => row._id} 
+              pagination={false}
+              dataSource={this.state.data} 
+              columns={columns}>
+            </Table>
+          </div>
+        </Card>
+        <div style={{height:600}}></div>
+      </>
     )
   }
 }

@@ -1,10 +1,11 @@
 // Messages消息列表
 import React, { useState } from 'react';
 import {Avatar } from 'antd';
+import {getUser} from '@/utils/util';
 import style from './index.scss';
 
 export default function Index(props) {
-    const [myId,setMyId] = useState(JSON.parse(localStorage.getItem('user')).userid)
+    const [myId,setMyId] = useState(getUser().userid)
 
     const Message = (props) => {
         if (props.msgType == 'system') {

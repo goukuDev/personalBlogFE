@@ -1,21 +1,24 @@
-.PageHeader{
-  background: #fff;
-  :global(.ant-col){
-    text-align: center;
-    .avatarImg{
-      width: 104px;
-      height: 104px;
-    }
-    h3{
-      margin: 10px auto;
-      font-weight:bold;
-    }
-    div{
-      margin-bottom: 10px;
-    }
-    h4{
-      text-align: left;
-      padding: 0 10%;
+:global(.ant-spin-nested-loading){
+  padding: 20px 10px 0;
+  .PageHeader{
+    background: #fff;
+    :global(.ant-col){
+      text-align: center;
+      .avatarImg{
+        width: 104px;
+        height: 104px;
+      }
+      h3{
+        margin: 10px auto;
+        font-weight:bold;
+      }
+      div{
+        margin-bottom: 10px;
+      }
+      h4{
+        text-align: left;
+        padding: 0 10%;
+      }
     }
   }
 }

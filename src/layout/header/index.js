@@ -7,10 +7,12 @@ import {
   Modal,
   Col,
   Row,
+  Drawer
 } from 'antd';
 import {createHashHistory} from 'history';
 import {MenuOutlined,ExclamationCircleOutlined} from '@ant-design/icons'; 
 import style from './index.scss';
+import {getUser} from '@/utils/util';
 
 
 const {Header} = Layout;
@@ -22,6 +24,7 @@ const menuArray = [
   {key:"home",name:"首页"},
   {key:"movie",name:"影视"},
   {key:"message",name:"留言板"},
+  {key:"about",name:"关于我"},
 ];
 
 
@@ -29,6 +32,7 @@ const menuArray = [
 
 export default function Index({props}){
   const [current,setCurrent] = useState('');
+  const [visible, setVisible] = useState(false);
 
   useEffect(()=>{
     setCurrent(props.pathname.split('/')[1]? props.pathname.split('/')[1]:'home')
@@ -55,28 +59,32 @@ export default function Index({props}){
   }
   const handleClick = e => {
     history.push({pathname:`/${e.key}`});
+    setVisible(false);
     setCurrent(e.key)
   };
   const DropMenu = (
-    <Menu>
-      <Menu.Item key='usercenter'>
-        <span onClick={()=>{history.push({pathname:'/usercenter'})}}>个人中心</span>
-      </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key='userset'>
-        <span onClick={()=>{history.push({pathname:'/userset'})}}>个人设置</span>
-      </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key='out'>
-        <span onClick={outLogin}>退出登录</span>
-      </Menu.Item>
-    </Menu>
+    getUser()?
+      <Menu>
+        <Menu.Item key='usercenter'>
+          <span onClick={()=>{history.push({pathname:'/usercenter'})}}>个人中心</span>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key='userset'>
+          <span onClick={()=>{history.push({pathname:'/userset'})}}>个人设置</span>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key='out'>
+          <span onClick={outLogin}>退出登录</span>
+        </Menu.Item>
+      </Menu>
+      :
+      <Menu>
+        <Menu.Item key='login'>
+          <span onClick={()=>{history.push({pathname:'/login'})}}>登录</span>
+        </Menu.Item>
+      </Menu>
   )
-  const DropMenuRouter = (
-    <Menu onClick={handleClick} selectedKeys={[current]} >
-      {menuArray.map(o=><Menu.Item key={o.key}>{o.name}</Menu.Item>)}
-    </Menu>
-  )
+
   return(
     <Header className={style.siteLayoutBackground}>
       <div className={style.logo}>
@@ -84,29 +92,42 @@ export default function Index({props}){
           <img src={img} alt='logo'/>
         </a>
         <Row>
+          {/* 小屏时候显示隐藏按钮 */}
+          <Col xs={24} sm={24} md={0} lg={0} xl={0}>
+            <div className={style.DropdownRouter} onClick={()=>{setVisible(true)}}>
+              <MenuOutlined />
+            </div>
+          </Col>
+        </Row>
+      </div>
+      <div className={style.right}>
+        <Row>
           <Col xs={0} sm={0} md={24} lg={24} xl={24}>
             <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
               {menuArray.map(o=><Menu.Item key={o.key}>{o.name}</Menu.Item>)}
             </Menu>
           </Col>
-          {/* 小屏时候显示隐藏按钮 */}
-          <Col xs={24} sm={24} md={0} lg={0} xl={0}>
-            <Dropdown overlay={DropMenuRouter} placement="bottomCenter" trigger={['click']}>
-              <div className={style.DropdownRouter}>
-                <MenuOutlined />
-              </div>
-            </Dropdown>
-          </Col>
         </Row>
+        <Dropdown overlay={DropMenu} placement="bottomCenter">
+          <div className={style.Dropdown}>
+            <Avatar 
+            className={style.avatar}
+            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+            <span className={style.user}>{getUser().name}</span>
+          </div>
+        </Dropdown>
+        <Drawer
+          placement="left"
+          closable={false}
+          onClose={()=>{setVisible(false)}}
+          visible={visible}
+          getContainer={false}
+        >
+          <Menu onClick={handleClick} selectedKeys={[current]} >
+            {menuArray.map(o=><Menu.Item key={o.key}>{o.name}</Menu.Item>)}
+          </Menu>
+        </Drawer>
       </div>
-      <Dropdown overlay={DropMenu} placement="bottomCenter">
-        <div className={style.Dropdown}>
-          <Avatar 
-          className={style.avatar}
-          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-          <span className={style.user}>{JSON.parse(localStorage.getItem('user')).name}</span>
-        </div>
-      </Dropdown>
     </Header>
   )
 }

@@ -1,0 +1,13 @@
+.about{
+  height: 100%;
+  padding: 20px 10px 0;
+  .card{
+    height: 100%;
+    line-height: 25px;
+    :global(.ant-card-body){
+      div{
+        text-indent: 2rem;
+      }
+    }
+  }
+}

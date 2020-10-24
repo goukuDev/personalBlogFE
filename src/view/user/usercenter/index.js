@@ -10,7 +10,8 @@ import {
 import {HomeOutlined,MobileOutlined,MailOutlined} from '@ant-design/icons';
 import {createHashHistory} from 'history';
 import style from './index.scss';
-import {getuser} from '@/api/user';
+import {getuserMsg} from '@/api/user';
+import {getUser} from '@/utils/util';
 
 
 const history = createHashHistory();
@@ -23,16 +24,16 @@ export default function Index(){
 
 
 
-  const getUser = async () =>{
-    let id = JSON.parse(localStorage.getItem('user')).userid;
-    let {data} = await getuser({id});
+  const UserMsg = async () =>{
+    let {userid} = getUser();
+    let {data} = await getuserMsg({id:userid});
     if(data.code === 0){
       setData(data.data.length? data.data[0]:{})
       setLoading(false);
     }
   };
   useEffect(()=>{
-    getUser();
+    UserMsg();
   },[]);
 
   return(

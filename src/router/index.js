@@ -7,6 +7,7 @@ import Movie from '@/view/movie';
 import UserSet from '@/view/user/userset';
 import UserCenter from '@/view/user/usercenter';
 import Message from '@/view/message';
+import About from '@/view/about'
 
 
 import LoginLayout from '@/view/user';
@@ -25,7 +26,7 @@ function AuthRoute({ roleName, component: Component, ...rest }) {
       <Route
           {...rest}
           render={props => {
-              return localStorage.getItem('token') && ['home','movie','chat','message','userset','usercenter'].includes(roleName) ? (
+              return localStorage.getItem('token') && ['home','movie','chat','message','about','userset','usercenter'].includes(roleName) ? (
                   <Layout>
                     <Component {...props} />
                   </Layout>
@@ -70,6 +71,7 @@ export default function Index(){
         <AuthRoute roleName='home' path='/home' component={Home}/>
         <AuthRoute roleName='movie' path='/movie' component={Movie}/>
         <AuthRoute roleName='message' path='/message' component={Message}/>
+        <AuthRoute roleName='about' path='/about' component={About}/>
         <AuthRoute roleName='userset' path='/userset' component={UserSet}/>
         <AuthRoute roleName='usercenter' path='/usercenter' component={UserCenter}/>
         <Redirect to='/404'/>

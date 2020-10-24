@@ -15,7 +15,8 @@ import {createHashHistory} from 'history';
 import Tags from 'tags';
 import Upload from 'upload';
 import style from './index.scss';
-import {getuser,update} from '@/api/user';
+import {getuserMsg,update} from '@/api/user';
+import {getUser} from '@/utils/util';
 
 
 const {Option} = Select;
@@ -47,9 +48,9 @@ export default function Index(){
 
 
 
-  const getUser = async () =>{
-    let id = JSON.parse(localStorage.getItem('user')).userid;
-    let {data} = await getuser({id});
+  const UserMsg = async () =>{
+    let id = getUser().userid;
+    let {data} = await getuserMsg({id});
     if(data.code === 0){
       form.setFieldsValue({
         ...data.data[0]
@@ -67,7 +68,7 @@ export default function Index(){
   }
   useEffect(()=>{
     getProvince();
-    getUser();
+    UserMsg();
   },[]);
 
 
@@ -78,12 +79,12 @@ export default function Index(){
               admin,
               username,
               personalTags:tags,
-              id:JSON.parse(localStorage.getItem('user')).userid
+              id:getUser().userid
             })
     let {data} = await update(d);
     if(data.code === 0){
       message.success('更新成功');
-      getUser();
+      UserMsg();
     }
   };
   return(
