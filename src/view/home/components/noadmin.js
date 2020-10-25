@@ -29,7 +29,7 @@ export default function Index(){
         <h1>相信美好的事情即将发生</h1>
       </div>
       <div className={style.content}>
-        <h1>哈哈哈哈哈，还没想好这里写一些什么东西。</h1>
+        <div>哈哈哈哈哈，还没想好这里写一些什么东西。</div>
       </div>
     </div>
   )

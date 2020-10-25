@@ -18,7 +18,14 @@
   }
   .content{
     height: 500px;
-    text-align: center;
-    line-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    div{
+      height: 50px;
+      font-size: 30px;
+      text-align: center;
+      line-height: 50px;
+    }
   }
 }

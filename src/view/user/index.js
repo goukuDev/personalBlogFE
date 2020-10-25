@@ -13,9 +13,11 @@ export default class Index extends Component {
   render(){
     return(
       <div className={style.logbox}> 
-        <div className={style.header}>有朋自远方来，不亦乐乎</div>
-        {this.props.children}
-        <div className={style.footer}></div>
+        <div className={style.box}>
+          <div className={style.header}>有朋自远方来，不亦乐乎</div>
+            {this.props.children}
+          <div className={style.footer}></div>
+        </div>
       </div>
     )
   }
