@@ -16,6 +16,11 @@
       .col{
         padding: 20px 0;
       }
+      :global(.ant-form){
+        :global(.ant-row){
+          flex-direction: column;
+        }
+      }
     }
   }
 }

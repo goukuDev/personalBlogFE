@@ -3,7 +3,7 @@ import { Tag, Input } from 'antd';
 import { TweenOneGroup } from 'rc-tween-one';
 import { PlusOutlined } from '@ant-design/icons';
 import {getuserMsg} from '@/api/user';
-import {getUser} from '@/utils/util';
+import {getUser,islogin} from '@/utils/util';
 
 export default class Index extends Component {
   state = {
@@ -17,6 +17,8 @@ export default class Index extends Component {
   }
 
   UserMsg = async () =>{
+    if(!await islogin()) return;
+    
     let {userid} = getUser();
     let {data} = await getuserMsg({id:userid});
     if(data.code === 0){

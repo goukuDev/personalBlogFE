@@ -16,7 +16,7 @@ import Tags from 'tags';
 import Upload from 'upload';
 import style from './index.scss';
 import {getuserMsg,update} from '@/api/user';
-import {getUser} from '@/utils/util';
+import {getUser,islogin} from '@/utils/util';
 
 
 const {Option} = Select;
@@ -49,6 +49,8 @@ export default function Index(){
 
 
   const UserMsg = async () =>{
+    if(!await islogin()) return setLoading(false);
+
     let id = getUser().userid;
     let {data} = await getuserMsg({id});
     if(data.code === 0){
@@ -74,6 +76,8 @@ export default function Index(){
 
 
   const onFinish = async (values) => {
+    if(!await islogin()) return message.error('请先登录');
+    
     let {admin,username} = form.getFieldValue();
     let d = Object.assign({},values,{
               admin,

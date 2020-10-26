@@ -3,6 +3,7 @@ import {Layout,Affix, Button, Modal, Input, message, Tooltip} from 'antd';
 import {IssuesCloseOutlined,WechatOutlined} from '@ant-design/icons'
 import Header from '@/layout/header';
 import {addfeedback} from '@/api/feedback';
+import {getUser,islogin} from '@/utils/util';
 import style from './index.scss';
 
 const {TextArea} = Input;
@@ -14,10 +15,11 @@ export default class Index extends Component{
     value:''
   }
   onOk = async () =>{
-    if (!this.state.value) return message.error('请填写反馈内容');
+    if(!await islogin()) return message.error('请先登录');
+    
     let {data} = await addfeedback({
       content:this.state.value,
-      username:JSON.parse(localStorage.getItem('user')).username,
+      username:getUser().username,
       date:new Date(),
     });
     if(data.code === 0){
@@ -75,6 +77,7 @@ export default class Index extends Component{
           maskClosable={false}
           visible={this.state.visible}
           onOk={this.onOk}
+          okButtonProps={{ disabled: !this.state.value }}
           onCancel={() => this.setState({visible:false})}
         >
           <TextArea 

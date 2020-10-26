@@ -3,7 +3,7 @@ import {getuserMsg} from '@/api/user';
 import Admin from 'admin';
 import NoAdmin from 'noadmin';
 import style from './index.scss';
-import {getUser} from '@/utils/util';
+import {getUser,islogin} from '@/utils/util';
 
 export default function Index(){
   const [admin,setAdmin] = useState(false);
@@ -15,7 +15,11 @@ export default function Index(){
     }
   };
   useEffect(()=>{
-    getData()
+    async function iflogin(){
+      if(!await islogin()) return;
+      getData();
+    }
+    iflogin();
   },[]);
   return(
     <div className={style.home}>

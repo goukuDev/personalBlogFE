@@ -12,7 +12,8 @@ import {
 import {createHashHistory} from 'history';
 import {MenuOutlined,ExclamationCircleOutlined} from '@ant-design/icons'; 
 import style from './index.scss';
-import {getUser} from '@/utils/util';
+import {getUser,islogin} from '@/utils/util';
+import {loginOut} from '@/api/user';
 
 
 const {Header} = Layout;
@@ -22,6 +23,7 @@ const history = createHashHistory();
 const img = require('@/assets/img/logo.jpg');
 const menuArray = [
   {key:"home",name:"首页"},
+  {key:"music",name:"音乐"},
   {key:"movie",name:"影视"},
   {key:"message",name:"留言板"},
   {key:"about",name:"关于我"},
@@ -48,9 +50,12 @@ export default function Index({props}){
       okText: '确定',
       okType: 'danger',
       cancelText: '取消',
-      onOk:()=> {
-        localStorage.clear();
-        history.push('/login')
+      onOk:async()=> {
+        let {data} = await loginOut({id:getUser().userid});
+        if(data.code === 0){
+          localStorage.clear();
+          history.push('/login')
+        }
       },
       onCancel() {
         console.log('Cancel');
@@ -78,11 +83,7 @@ export default function Index({props}){
         </Menu.Item>
       </Menu>
       :
-      <Menu>
-        <Menu.Item key='login'>
-          <span onClick={()=>{history.push({pathname:'/login'})}}>登录</span>
-        </Menu.Item>
-      </Menu>
+      <></>
   )
 
   return(
@@ -101,21 +102,19 @@ export default function Index({props}){
         </Row>
       </div>
       <div className={style.right}>
+        {/* 大屏幕时候菜单 */}
         <Row>
           <Col xs={0} sm={0} md={24} lg={24} xl={24}>
             <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-              {menuArray.map(o=><Menu.Item key={o.key}>{o.name}</Menu.Item>)}
+              {
+                getUser()?
+                menuArray.map(o=><Menu.Item key={o.key}>{o.name}</Menu.Item>)
+                :
+                (menuArray.concat({key:'login',name:'登录'})).map(o=><Menu.Item key={o.key}>{o.name}</Menu.Item>)
+              }
             </Menu>
           </Col>
         </Row>
-        <Dropdown overlay={DropMenu} placement="bottomCenter">
-          <div className={style.Dropdown}>
-            <Avatar 
-            className={style.avatar}
-            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-            <span className={style.user}>{getUser().name}</span>
-          </div>
-        </Dropdown>
         <Drawer
           placement="left"
           closable={false}
@@ -124,9 +123,23 @@ export default function Index({props}){
           getContainer={false}
         >
           <Menu onClick={handleClick} selectedKeys={[current]} >
-            {menuArray.map(o=><Menu.Item key={o.key}>{o.name}</Menu.Item>)}
+            {
+              getUser()?
+              menuArray.map(o=><Menu.Item key={o.key}>{o.name}</Menu.Item>)
+              :
+              (menuArray.concat({key:'login',name:'登录'})).map(o=><Menu.Item key={o.key}>{o.name}</Menu.Item>)
+            }
           </Menu>
         </Drawer>
+        {/* 用户头部操作 */}
+        <Dropdown overlay={DropMenu} placement="bottomCenter" trigger={['click']}>
+          <div className={style.Dropdown}>
+            <Avatar 
+            className={style.avatar}
+            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+            <span className={style.user}>{getUser().name}</span>
+          </div>
+        </Dropdown>
       </div>
     </Header>
   )

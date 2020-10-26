@@ -13,9 +13,9 @@ const request = axios.create({
 const error = (error)=>{
   if (error.response.status === 401 && !!token) {
     message.error('登录过期,请重新登录');
-    localStorage.removeItem('token');
+    localStorage.clear();
     setTimeout(() => {
-      location.reload();
+      location.hash='#/login'
     }, 1500)
   }else{
     message.error('服务器开小差了');

@@ -8,6 +8,7 @@ import UserSet from '@/view/user/userset';
 import UserCenter from '@/view/user/usercenter';
 import Message from '@/view/message';
 import About from '@/view/about'
+import Music from '@/view/music';
 
 
 import LoginLayout from '@/view/user';
@@ -26,18 +27,11 @@ function AuthRoute({ roleName, component: Component, ...rest }) {
       <Route
           {...rest}
           render={props => {
-              return localStorage.getItem('token') && ['home','movie','chat','message','about','userset','usercenter'].includes(roleName) ? (
-                  <Layout>
-                    <Component {...props} />
-                  </Layout>
-              ) : (
-                  <Redirect
-                      to={{
-                          pathname: '/login',
-                          state: { from: props.location }
-                      }}
-                  />
-              );
+              return (
+                <Layout>
+                  <Component {...props} />
+                </Layout>
+              )
           }}
       />
   );
@@ -69,6 +63,7 @@ export default function Index(){
         { outRouter.map(item => <LoginRoute path={item.path}  component={item.component} key={item.path}/>) }
         <AuthRoute exact roleName='home' path='/' component={Home}/>
         <AuthRoute roleName='home' path='/home' component={Home}/>
+        <AuthRoute roleName='music' path='/music' component={Music}/>
         <AuthRoute roleName='movie' path='/movie' component={Movie}/>
         <AuthRoute roleName='message' path='/message' component={Message}/>
         <AuthRoute roleName='about' path='/about' component={About}/>

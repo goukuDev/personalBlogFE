@@ -4,6 +4,7 @@ import moment from 'moment';
 import style from './index.scss';
 import {msgList,addmsg,giveStart} from '@/api/message';
 import { DislikeOutlined, LikeOutlined } from '@ant-design/icons';
+import { getUser,islogin } from '@/utils/util';
 
 const { TextArea } = Input;
 const Editor = ({ onChange, onSubmit, onPressEnter, submitting, value }) => (
@@ -39,6 +40,8 @@ export default class Index extends Component{
   
 
   like = async (e,type) => {
+    if(!await islogin()) return message.error('请先登录');
+
     const num = type === 'like'? e.like+= 1 : e.dislike+= 1;
     let options = {
       type:type,
@@ -100,13 +103,15 @@ export default class Index extends Component{
 
   //发布留言
   handleSubmit = async() =>{
+    if(!await islogin()) return message.error('请先登录');
+    
     this.setState({
       submitting: true,
     });
 
 
     let {data} = await addmsg({
-      username:JSON.parse(localStorage.getItem('user')).username,
+      username:getUser().username,
       content:this.state.value,
       date:new Date(),
     })

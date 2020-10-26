@@ -9,18 +9,25 @@ export function register(data){
   })
 }
 //检查是否已登录
-export function isLogin(params){
+export function isLogin(data){
   return request({
     url: '/api/user/isLogin',
-    method: 'get',
-    params,
-    cache:false
+    method: 'post',
+    data
   })
 }
 //登录
 export function login(data){
   return request({
     url: '/api/user/login',
+    method: 'post',
+    data
+  })
+}
+//退出登录
+export function loginOut(data){
+  return request({
+    url: '/api/user/loginOut',
     method: 'post',
     data
   })
