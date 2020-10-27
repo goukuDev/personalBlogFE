@@ -26,7 +26,7 @@ const menuArray = [
   {key:"music",name:"音乐"},
   {key:"movie",name:"影视"},
   {key:"message",name:"留言板"},
-  {key:"about",name:"关于我"},
+  {key:"about",name:"关于"},
 ];
 
 

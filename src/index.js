@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {ConfigProvider} from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import * as serviceWorker from './serviceWorker';
+import "video-react/dist/video-react.css"
 import 'antd/dist/antd.css';
 import style from './index.scss';
 import Router from './router';

@@ -1,11 +1,11 @@
 import React from 'react';
 import { List, Avatar, Card} from 'antd';
 import LazyLoad from 'react-lazyload';
-import ReactAudioPlayer from 'react-audio-player';
 import style from './index.scss';
 
 
-export default function Index(){
+export default function Index(props){
+  const history = props.history;
   // 获取本地音乐数据
   const data = require('@/assets/json/music.json');
   return (
@@ -17,7 +17,7 @@ export default function Index(){
           itemLayout="horizontal"
           dataSource={data}
           renderItem={item => (
-            <List.Item>
+            <List.Item onClick={()=>{history.push({ pathname:'/musicDetail',state:{item} })}}>
               <List.Item.Meta
                 avatar={
                   <LazyLoad 
@@ -30,13 +30,6 @@ export default function Index(){
                 title={<span>{item.name}</span>}
                 description={item.ar.map(o=>o.name)}
               />
-              <div>
-              <ReactAudioPlayer
-                src={`http://music.163.com/song/media/outer/url?id=${item.id}.mp3`}
-                autoPlay={false}
-                controls
-              />
-              </div>
             </List.Item>
           )}
         />

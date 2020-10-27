@@ -1,0 +1,90 @@
+:global(.ant-spin-nested-loading){
+  padding: 20px 10px 0;
+  .PageHeader{
+    background: #fff;
+    .musicdetail{
+      min-height: 400px;
+      .title{
+        :global(.ant-col){
+          text-align: center;
+          &:first-child{
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            :global(.ant-avatar){
+              width: 150px;
+              height: 150px;
+            }
+            :global(.anticon){
+              cursor: pointer;
+              svg{
+                width: 30px;
+                height: 30px;
+              }
+            }
+          }
+          &:last-child{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            :global(.react-audio-player) {
+              outline: none;
+              margin: 20px 0;
+            }
+          }
+        }
+        :global(.play){
+          position: relative;
+          animation: animations 10s infinite linear;
+        }
+      }
+      .musicword{
+        min-height: 40px;
+        text-align: center;
+        line-height: 40px;
+      }
+    }
+  }
+}
+@keyframes animations{
+  form{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes animations{
+  form{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes animations{
+  form{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes animations{
+  form{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}
+@-ms-keyframes animations{
+  form{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}

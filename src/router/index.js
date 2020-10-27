@@ -9,6 +9,7 @@ import UserCenter from '@/view/user/usercenter';
 import Message from '@/view/message';
 import About from '@/view/about'
 import Music from '@/view/music';
+import MusicDetail from '@/view/music/components/detail';
 
 
 import LoginLayout from '@/view/user';
@@ -64,6 +65,7 @@ export default function Index(){
         <AuthRoute exact roleName='home' path='/' component={Home}/>
         <AuthRoute roleName='home' path='/home' component={Home}/>
         <AuthRoute roleName='music' path='/music' component={Music}/>
+        <AuthRoute roleName='musicDetail' path='/musicDetail' component={MusicDetail}/>
         <AuthRoute roleName='movie' path='/movie' component={Movie}/>
         <AuthRoute roleName='message' path='/message' component={Message}/>
         <AuthRoute roleName='about' path='/about' component={About}/>
