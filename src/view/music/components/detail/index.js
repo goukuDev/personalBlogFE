@@ -77,7 +77,7 @@ export default function Index(props){
         <div className={style.musicdetail}>
           <div className={style.title}>
             <Row>
-              <Col xs={24} sm={24} md={16} lg={16} xl={10}>
+              <Col xs={24} sm={24} md={14} lg={14} xl={10}>
                 <Avatar src={params?.item?.al?.picUrl} className={play? 'play':''}/>
                 {
                   !!params?.item?.mv?
@@ -86,7 +86,7 @@ export default function Index(props){
                   <></>
                 }
               </Col>
-              <Col xs={24} sm={24} md={16} lg={16} xl={10}>
+              <Col xs={24} sm={24} md={10} lg={10} xl={14}>
                 {
                   params?
                   <h2>{params?.item?.name}</h2>

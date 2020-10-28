@@ -52,7 +52,7 @@ export default function Login(){
                   },
                 ]}
               >  
-                <Input prefix={<UserOutlined/>} placeholder="用户名: Dove" /> 
+                <Input prefix={<UserOutlined/>} placeholder="用户名" /> 
               </Form.Item>  
               <Form.Item
                 name="password"
@@ -63,7 +63,7 @@ export default function Login(){
                   },
                 ]}
               >  
-                <Input.Password type='password' prefix={<LockOutlined/>} placeholder="密码: Dove123456" />  
+                <Input.Password type='password' prefix={<LockOutlined/>} placeholder="密码" />  
               </Form.Item>  
               <Form.Item>  
                   <a onClick={onForget} style={{width:'50%',textAlign:'left',display:'inline-block'}}>忘记密码?</a> 
