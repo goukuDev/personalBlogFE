@@ -97,7 +97,7 @@ export default function Index(props){
                   onPlay={onPlay}
                   onPause={onPause}
                   id='audio'
-                  src={`http://music.163.com/song/media/outer/url?id=${params?.item?.id}.mp3`}
+                  src={`https://music.163.com/song/media/outer/url?id=${params?.item?.id}.mp3`}
                   autoPlay={false}
                   controls
                 />

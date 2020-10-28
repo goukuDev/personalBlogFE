@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import { Table,Modal,message,Divider,Button,Pagination,Card} from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import {getMovieList,addmovie,removemovie,getMovieById,updateMovie} from '@/api/movie';
+import {getuserMsg} from '@/api/user';
 import CollectionCreateForm from './CollectionCreateForm';
 import {getUser,islogin} from '@/utils/util';
 import style from './index.scss';
@@ -20,17 +21,32 @@ export default class Index extends Component{
     },
     movieData:{},
     musicData:[],
+    admin:false,
+    isLogin:false
   }
   componentDidMount(){
+    this.getUserAdmin();
     this.getlist();
   }
+  getUserAdmin = async ()=>{
+    if(!await islogin()) return;
+
+    let res = await getuserMsg({id:getUser().userid});
+    if(res.data.code === 0 && !!res.data.data.length){
+      this.setState({
+        admin:res.data.data[0].admin,
+        isLogin:true
+      })
+    }
+  };
   //获取电影列表数据
   getlist = async () =>{
     if(!await islogin()) return;
-
+    
     let {pageNum,pageSize} = this.state.pagination;
     this.setState({
-      loading:true
+      loading:true,
+      isLogin:true
     });
     let {data} = await getMovieList({page:pageNum,pageSize:pageSize,userId:getUser().userid});
     if(data.code === 0){
@@ -56,8 +72,6 @@ export default class Index extends Component{
       okType: 'danger',
       cancelText: '取消',
       onOk:async ()=> {
-        if(!await islogin()) return message.error('请先登录');
-
         let {data} = await removemovie({id:row.id});
         if(data.code === 0){
           message.success('删除成功');
@@ -71,8 +85,6 @@ export default class Index extends Component{
   };
   //编辑
   editMovie = async (row) =>{
-    if(!await islogin()) return message.error('请先登录');
-
     let {data} = await getMovieById({id:row.id});
     if(data.code === 0){
       this.setState({
@@ -83,8 +95,6 @@ export default class Index extends Component{
   };
   //新增
   onCreate = async (values) => {
-    if(!await islogin()) return message.error('请先登录');
-
     let movieData = Object.assign({},values,{
       ticketPrice: values.ticketPrice? values.ticketPrice : 40,
       highPraiseRate: values.highPraiseRate? values.highPraiseRate : 0.6,
@@ -99,7 +109,10 @@ export default class Index extends Component{
     }
     if(res.data.code === 0){
       message.success(`${values.id? '编辑成功':'新增成功'}`);
-      this.setState({visible:false})
+      this.setState({
+        visible:false,
+        isLogin:true
+      })
       this.getlist();
     }
   };
@@ -114,8 +127,10 @@ export default class Index extends Component{
       this.getlist();
     });
   }
+  
   render(){
-    const columns = [
+    const {admin,isLogin} = this.state;
+    let columns = [
       {
         title: '电影名称',
         dataIndex: 'movieName',
@@ -135,8 +150,10 @@ export default class Index extends Component{
       {
         title: '好评率',
         dataIndex: 'highPraiseRate',
-      },
-      {
+      }
+    ];
+    !!admin?
+      columns.push({
         title:'操作',
         align:'center',
         render:(row)=>{
@@ -148,14 +165,18 @@ export default class Index extends Component{
               </>
           )
         }
-      }
-    ];
+      })
+      :
+      null;
     return (
       <div className={style.moviebox}>
         <Card 
         title="电影收集" 
         extra={
-          <Button type="primary" onClick={()=>{this.setState({visible:true,movieData:{}})}}>新增</Button>
+          isLogin?
+            <Button type="primary" onClick={()=>{this.setState({visible:true,movieData:{}})}}>新增</Button>
+            :
+            <></>
         } 
         className={style.card}>
           <div className={style.tablebox}>
