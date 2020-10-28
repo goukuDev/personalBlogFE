@@ -46,6 +46,14 @@
         line-height: 40px;
       }
     }
+    :global(.video-react .video-react-big-play-button){
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      width: 1.5em;
+      line-height: 1.5em;
+      border-radius: 50%;
+    }
   }
 }
 @keyframes animations{

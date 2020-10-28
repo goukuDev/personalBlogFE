@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import { createFromIconfontCN } from '@ant-design/icons';
 import {
-  Button,
+  Modal,
   PageHeader,
   Spin,
   Avatar,
@@ -21,18 +21,18 @@ export default function Index(props){
   const history = props.history;
 
   const [loading,setLoading] = useState(false);
-  const [recvParam,setRecvParam] = useState('');
+  const [params,setParams] = useState('');
   const [play,setPlay] = useState(false);
-  const [mvUrl,setmvUrl] = useState('');
+  const [mvUrl,setmvUrl] = useState(false);
 
   const getParams = () =>{
     setLoading(false);
     const {location}=props;
     if(location.state){//判断当前有参数
-      setRecvParam(location.state);
+      setParams(location.state);
       sessionStorage.setItem('data',JSON.stringify(location.state));// 存入到sessionStorage中
     }else{
-      setRecvParam(JSON.parse(sessionStorage.getItem('data')));// 当state没有参数时，取sessionStorage中的参数
+      setParams(JSON.parse(sessionStorage.getItem('data')));// 当state没有参数时，取sessionStorage中的参数
     }
   }
 
@@ -47,18 +47,25 @@ export default function Index(props){
     sessionStorage.clear();
   }
 
+  // 音乐播放
   const onPlay = () =>{
     setPlay(true)
   }
   const onPause = () =>{
     setPlay(false)
   }
-  const openMv = ({mvUrl}) =>{
-    setmvUrl(mvUrl);
+  //打开mv
+  const openMv = () =>{
+    setmvUrl(true)
   }
-  const onPlayVideo = () =>{
-    onPause();
-    console.log(123456)
+  const handleCancel = e => {
+    const video = document.getElementById('video');
+    video.pause();
+    setmvUrl(false)
+  };
+  //打开mv后自动关闭音乐
+  const onPlayMv = () =>{
+    audio.pause();
   }
   return(
     <Spin spinning={loading}>
@@ -71,18 +78,18 @@ export default function Index(props){
           <div className={style.title}>
             <Row>
               <Col xs={24} sm={24} md={16} lg={16} xl={10}>
-                <Avatar src={recvParam?.item?.al?.picUrl} className={play? 'play':''}/>
+                <Avatar src={params?.item?.al?.picUrl} className={play? 'play':''}/>
                 {
-                  recvParam?.item?.mvUrl?
-                  <IconFont type="iconVideoClip-1" onClick={()=>{openMv(recvParam.item)}}/>
+                  !!params?.item?.mv?
+                  <IconFont type="iconVideoClip-1" onClick={openMv}/>
                   :
                   <></>
                 }
               </Col>
               <Col xs={24} sm={24} md={16} lg={16} xl={10}>
                 {
-                  recvParam?
-                  <h2>{`《${recvParam?.item?.name}》`}</h2>
+                  params?
+                  <h2>{params?.item?.name}</h2>
                   :
                   <></>
                 }  
@@ -90,32 +97,34 @@ export default function Index(props){
                   onPlay={onPlay}
                   onPause={onPause}
                   id='audio'
-                  src={`http://music.163.com/song/media/outer/url?id=${recvParam?.item?.id}.mp3`}
+                  src={`http://music.163.com/song/media/outer/url?id=${params?.item?.id}.mp3`}
                   autoPlay={false}
                   controls
                 />
-                <div>{recvParam?.item?.ar.map(o=>o.name).join('、')}</div>
+                <div>{params?.item?.ar.map(o=>o.name).join('、')}</div>
               </Col>
             </Row>
           </div>
           <div className={style.musicword}>
             ---暂时没有歌词---
           </div>
-          <Row>
-            <Col xs={24} sm={24} md={16} lg={16} xl={10} style={{margin:'30px auto 0'}}>
-              {
-                mvUrl?
-                <Player
-                  playsInline
-                  Play={()=>{onPlayVideo}}
-                  src={mvUrl}
-                />
-                :
-                <></>
-              }
-            </Col>
-          </Row>
         </div>
+        <Modal
+          title="MV"
+          centered
+          getContainer={false}
+          maskClosable={false}
+          visible={mvUrl}
+          onCancel={handleCancel}
+          footer={null}
+        >
+          <Player
+            playsInline
+            onPlay={onPlayMv}
+            videoId='video'
+            src='https://media.w3.org/2010/05/sintel/trailer_hd.mp4'
+          />
+        </Modal>
       </PageHeader>
     </Spin>
   )
