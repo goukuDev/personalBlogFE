@@ -6,7 +6,8 @@ import {
   Card,
   Avatar,
   Tooltip, 
-  Tag
+  Tag,
+  Timeline
 } from 'antd';
 import { 
   EditOutlined, 
@@ -59,10 +60,12 @@ export default function Index(){
       </div>
       <div className={style.content}>
         <Row>
-          <Col xs={24} sm={24} md={11} lg={14} xl={14}>
-            <div style={{backgroundColor:'red'}}>456</div>
+          <Col xs={24} sm={24} md={11} lg={14} xl={14} className='left'>
+            <Card style={{ width: '95%', margin:'20px auto 0' }}></Card>
+            <Card style={{ width: '95%', margin:'20px auto 0' }}></Card>
+            <Card style={{ width: '95%', margin:'20px auto 0' }}></Card>
           </Col>
-          <Col xs={24} sm={24} md={11} lg={8} xl={8}>
+          <Col xs={24} sm={24} md={11} lg={8} xl={8} className='right'>
             <Card
               hoverable
               style={{ width: 300, margin:'auto' }}
@@ -143,7 +146,7 @@ export default function Index(){
               </Tag>
             </Card>
             <Card style={{ width: 300, margin:'20px auto 0' }}>
-              <Carousel dotPosition='right' effect="fade" autoplay autoplaySpeed={10000} dots={false}>
+              <Carousel dotPosition='right' autoplay autoplaySpeed={10000} dots={false}>
                 {[1,2,3,4,5].map((o,index)=>{
                   return(
                     <div key={index}>

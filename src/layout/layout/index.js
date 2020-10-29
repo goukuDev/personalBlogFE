@@ -78,7 +78,7 @@ export default class Index extends Component{
           visible={this.state.visible}
           onOk={this.onOk}
           okButtonProps={{ disabled: !this.state.value }}
-          onCancel={() => this.setState({visible:false})}
+          onCancel={() => this.setState({visible:false,value:''})}
         >
           <TextArea 
             onPressEnter={(e)=>this.onPressEnter(e)} 
