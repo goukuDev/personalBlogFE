@@ -6,6 +6,7 @@ import style from './index.scss';
 
 export default function Index(props){
   const history = props.history;
+  console.log(props)
   // 获取本地音乐数据
   const data = require('@/assets/json/music.json');
   return (

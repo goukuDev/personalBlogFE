@@ -14,7 +14,7 @@ import style from './index.scss';
 
 
 const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1620850_qa2fn6hbwp.js',
+  scriptUrl: '//at.alicdn.com/t/font_1620850_72i6hlneveh.js',
 });
 export default function Index(props){
   const audio = document.getElementById('audio');

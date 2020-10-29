@@ -1,0 +1,26 @@
+:global(.ant-modal-content){
+  background: url(~@/assets/img/bg3.jpg) no-repeat 50%;
+  background-size: cover;
+  :global(.ant-modal-header){
+    background: none;
+    border: none;
+  }
+  .loginFormCol{  
+    width: 100%; 
+    .loginForm{  
+        width:300px;  
+        margin:0 auto; 
+        h3{
+          color: #fff;
+        }
+        .loginBtn{  
+            width:100%  
+        }  
+    }  
+    .title{
+      height: 45px;
+      text-align: center;
+      line-height: 45px;
+    }
+  }
+}

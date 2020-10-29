@@ -46,7 +46,7 @@ export default class Index extends Component{
               {this.props.children}
             </React.Fragment>
             <Affix style={{ position: 'fixed', bottom: 88, right: 20 }}>
-              <Tooltip placement="left" title={<img style={{width:100,height:100}} src={require('@/assets/img/wx.jpg')}></img>}>
+              <Tooltip placement="left" trigger='[click]' title={<img style={{width:100,height:100}} src={require('@/assets/img/wx.jpg')}></img>}>
                 <Button 
                   type="primary" 
                   shape="circle"
