@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { 
   Carousel,
   Col,
@@ -7,7 +7,7 @@ import {
   Avatar,
   Tooltip, 
   Tag,
-  Timeline
+  DatePicker
 } from 'antd';
 import { 
   EditOutlined, 
@@ -16,6 +16,7 @@ import {
   Html5Outlined
 } from '@ant-design/icons';
 import { createHashHistory } from 'history';
+import moment from 'moment';
 import style from './noadmin.scss';
 
 
@@ -27,13 +28,24 @@ const IconFont = createFromIconfontCN({
 
 
 export default function Index(){
-  const contentStyle = {
-    height: '160px',
-    color: '#fff',
-    lineHeight: '160px',
-    textAlign: 'center',
-    background: '#364d79',
-  };
+  const [Constellation,setConstellation] = useState('')
+
+
+  useEffect(()=>{
+    setConstellation(getConstellation((new Date()).getMonth()+1,(new Date()).getDate()))
+  },[])
+  const getConstellation = (m,d) => { 
+      let s = "魔羯水瓶双鱼牡羊金牛双子巨蟹狮子处女天秤天蝎射手魔羯";
+      let arr = [20,19,21,21,21,22,23,23,23,23,22,22];
+      return `${s.substr(m*2-(d<arr[m-1]?2:0),2)}座`;
+  }
+  const onChange = (d,dateString) => {
+    setConstellation('');
+    const getDate = new Date(dateString);
+    const month = getDate.getMonth() + 1;
+    const date = getDate.getDate();
+    setConstellation(getConstellation(month,date));
+  }
   return(
     <div className={style.noadmin}>
       <div className={style.banner}>
@@ -61,7 +73,21 @@ export default function Index(){
       <div className={style.content}>
         <Row>
           <Col xs={24} sm={24} md={11} lg={14} xl={14} className='left'>
-            <Card style={{ width: '95%', margin:'20px auto 0' }}></Card>
+            <Card style={{ width: '95%', margin:'20px auto 0' }}>
+              <h1>
+                今天是{`${(new Date()).getFullYear()}年${(new Date()).getMonth()+1}月${(new Date()).getDate()}日,属于${getConstellation((new Date()).getMonth()+1,(new Date()).getDate())}`}
+              </h1>
+              <div>
+                <span style={{marginRight:10,marginBottom:10}}>选择你的生日,看看你的星座是什么吧.</span>
+                <DatePicker 
+                  showToday={false}
+                  allowClear={false}
+                  defaultValue={moment(`${(new Date()).getFullYear()}/${(new Date()).getMonth()+1}/${(new Date()).getDate()}`,'YYYY/MM/DD')}
+                  onChange={onChange} 
+                />
+                <span style={{marginLeft:10,marginTop:10}}>{Constellation}</span>
+              </div>
+            </Card>
             <Card style={{ width: '95%', margin:'20px auto 0' }}></Card>
             <Card style={{ width: '95%', margin:'20px auto 0' }}></Card>
           </Col>
