@@ -151,7 +151,6 @@ export default function Index({props}){
         </div>
       </Header>
       <Login
-        className='loginbox'
         visible={visibleLogin}
         onCancel={()=>{setVisibleLogin(false)}}
       />

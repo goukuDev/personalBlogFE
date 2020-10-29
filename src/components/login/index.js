@@ -49,6 +49,7 @@ export default function Login({visible,onCancel}){
   }
   return(  
     <Modal
+      className='loginbox'
       getContainer={false}
       title="有朋自远方来,不亦乐乎"
       visible={visible}
