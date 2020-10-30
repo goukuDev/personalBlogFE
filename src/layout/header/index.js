@@ -56,8 +56,7 @@ export default function Index({props}){
         let {data} = await loginOut({id:getUser().userid});
         if(data.code === 0){
           localStorage.clear();
-          // history.push('/login');
-          location.reload();
+          history.push('/home');
         }
       },
       onCancel() {

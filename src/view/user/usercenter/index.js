@@ -11,7 +11,7 @@ import {HomeOutlined,MobileOutlined,MailOutlined} from '@ant-design/icons';
 import {createHashHistory} from 'history';
 import style from './index.scss';
 import {getuserMsg} from '@/api/user';
-import {getUser} from '@/utils/util';
+import {getUser,islogin} from '@/utils/util';
 
 
 const history = createHashHistory();
@@ -25,6 +25,8 @@ export default function Index(){
 
 
   const UserMsg = async () =>{
+    if(!await islogin()) return setLoading(false);
+    
     let {userid} = getUser();
     let {data} = await getuserMsg({id:userid});
     if(data.code === 0){
