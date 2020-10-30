@@ -28,11 +28,15 @@ const IconFont = createFromIconfontCN({
 
 
 export default function Index(){
-  const [Constellation,setConstellation] = useState('')
-
+  const [Constellation,setConstellation] = useState('');
+  const [diffdate,setDiffdate] = useState('');
+  const article = require('@/assets/json/article.json');
 
   useEffect(()=>{
-    setConstellation(getConstellation((new Date()).getMonth()+1,(new Date()).getDate()))
+     (getConstellation((new Date()).getMonth()+1,(new Date()).getDate()))
+     setInterval(()=>{
+       getOpenDay();
+     },1000)
   },[])
   const getConstellation = (m,d) => { 
       let s = "魔羯水瓶双鱼牡羊金牛双子巨蟹狮子处女天秤天蝎射手魔羯";
@@ -45,6 +49,17 @@ export default function Index(){
     const month = getDate.getMonth() + 1;
     const date = getDate.getDate();
     setConstellation(getConstellation(month,date));
+  }
+
+  const getOpenDay = () => {
+    let time=Date.parse(new Date());
+    let lasttime=Date.parse("2020-10-19");
+    const diffdate = new Date(time - lasttime);
+    const days = diffdate.getDate();
+    const hours = diffdate.getHours();
+    const minutes = diffdate.getMinutes() + 1;
+    const seconds  = diffdate.getSeconds();
+    setDiffdate(`${days}天 ${hours}时 ${minutes}分 ${seconds}秒`);
   }
   return(
     <div className={style.noadmin}>
@@ -74,9 +89,9 @@ export default function Index(){
         <Row>
           <Col xs={24} sm={24} md={11} lg={14} xl={14} className='left'>
             <Card style={{ width: '95%', margin:'20px auto 0' }}>
-              <h1>
+              <h3>
                 今天是{`${(new Date()).getFullYear()}年${(new Date()).getMonth()+1}月${(new Date()).getDate()}日,属于${getConstellation((new Date()).getMonth()+1,(new Date()).getDate())}`}
-              </h1>
+              </h3>
               <div>
                 <span style={{marginRight:10,marginBottom:10}}>选择你的生日,看看你的星座是什么吧.</span>
                 <DatePicker 
@@ -88,8 +103,15 @@ export default function Index(){
                 <span style={{marginLeft:10,marginTop:10}}>{Constellation}</span>
               </div>
             </Card>
-            <Card style={{ width: '95%', margin:'20px auto 0' }}></Card>
-            <Card style={{ width: '95%', margin:'20px auto 0' }}></Card>
+            {
+              article.map((o,index)=>
+                <Card style={{ width: '95%', margin:'20px auto 0', cursor:'pointer' }} key={index}>
+                  <a href={o.url} target="_blank">
+                    <h3 key={index}>{o.title}</h3>
+                  </a>
+                </Card>
+              )
+            }
           </Col>
           <Col xs={24} sm={24} md={11} lg={8} xl={8} className='right'>
             <Card
@@ -172,26 +194,8 @@ export default function Index(){
               </Tag>
             </Card>
             <Card style={{ width: 300, margin:'20px auto 0' }}>
-              <Carousel dotPosition='right' autoplay autoplaySpeed={10000} dots={false}>
-                {[1,2,3,4,5].map((o,index)=>{
-                  return(
-                    <div key={index}>
-                      <div style={{
-                        height: 240,
-                        color: '#fff',
-                        lineHeight: 240,
-                        textAlign: 'center',
-                        backgroundImage: `url(${require(`@/assets/img/bg${o}.jpg`)})`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition:'50%',
-                        backgroundSize: 'cover',
-                        position:'relative'
-                      }}>
-                      </div>
-                    </div>
-                  )
-                })}
-              </Carousel>
+              <div>博客已开通</div>
+              <h3>{diffdate}</h3>
             </Card>
           </Col>
         </Row>
