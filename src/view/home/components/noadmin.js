@@ -17,6 +17,7 @@ import {
 } from '@ant-design/icons';
 import { createHashHistory } from 'history';
 import moment from 'moment';
+import axios from 'axios';
 import style from './noadmin.scss';
 
 
@@ -30,13 +31,16 @@ const IconFont = createFromIconfontCN({
 export default function Index(){
   const [Constellation,setConstellation] = useState('');
   const [diffdate,setDiffdate] = useState('');
+  const [location,setLocation] = useState('');
+  const [weather,setWeather] = useState('');
   const article = require('@/assets/json/article.json');
 
   useEffect(()=>{
      (getConstellation((new Date()).getMonth()+1,(new Date()).getDate()))
      setInterval(()=>{
        getOpenDay();
-     },1000)
+     },1000);
+     getLocaltion();
   },[])
   const getConstellation = (m,d) => { 
       let s = "魔羯水瓶双鱼牡羊金牛双子巨蟹狮子处女天秤天蝎射手魔羯";
@@ -60,6 +64,21 @@ export default function Index(){
     const minutes = diffdate.getMinutes() + 1;
     const seconds  = diffdate.getSeconds();
     setDiffdate(`${days}天 ${hours}时 ${minutes}分 ${seconds}秒`);
+  }
+
+
+  const getLocaltion = () => {
+    axios.get('https://restapi.amap.com/v3/ip?key=c336900aba752fc9549a670d19a93d4f')
+    .then(({data})=>{
+      if(data.status === '1'){
+        axios.get(`https://restapi.amap.com/v3/weather/weatherInfo?city=${data.adcode}&key=c336900aba752fc9549a670d19a93d4f`)
+        .then(({data})=>{
+          if(data.status === '1'){
+            setLocation(data?.lives[0])
+          }
+        })
+      }
+    })
   }
   return(
     <div className={style.noadmin}>
@@ -196,6 +215,7 @@ export default function Index(){
             <Card style={{ width: 300, margin:'20px auto 0' }}>
               <div>博客已开通</div>
               <h3>{diffdate}</h3>
+              {location.province}{location.city}，{location.weather}，当前温度{location.temperature}℃
             </Card>
           </Col>
         </Row>

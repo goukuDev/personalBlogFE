@@ -10,13 +10,6 @@ module.exports = function (app) {
           target: 'http://localhost:9528/',
           changeOrigin: true
         }
-      ),
-      createProxyMiddleware(
-        '/music', 
-        {
-          target: 'https://music.163.com/',
-          changeOrigin: true
-        }
       )
     );
 }
