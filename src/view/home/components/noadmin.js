@@ -32,7 +32,6 @@ export default function Index(){
   const [Constellation,setConstellation] = useState('');
   const [diffdate,setDiffdate] = useState('');
   const [location,setLocation] = useState('');
-  const [weather,setWeather] = useState('');
   const article = require('@/assets/json/article.json');
 
   useEffect(()=>{
