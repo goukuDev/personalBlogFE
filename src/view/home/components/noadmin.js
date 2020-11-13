@@ -82,7 +82,7 @@ export default function Index(){
   return(
     <div className={style.noadmin}>
       <div className={style.banner}>
-        <Carousel effect="fade" autoplay autoplaySpeed={10000} dots={false}>
+        <Carousel effect="fade" autoplay autoplaySpeed={6000} dots={false}>
           {[1,2,3,4,5].map((o,index)=>{
             return(
               <div key={index}>
