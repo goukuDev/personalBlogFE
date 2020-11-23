@@ -30,22 +30,27 @@ const IconFont = createFromIconfontCN({
 
 export default function Index(){
   const [Constellation,setConstellation] = useState('');
-  const [diffdate,setDiffdate] = useState('');
+  const [opendate,setOpendate] = useState('');
   const [location,setLocation] = useState('');
   const article = require('@/assets/json/article.json');
 
   useEffect(()=>{
-     (getConstellation((new Date()).getMonth()+1,(new Date()).getDate()))
+     initGetConstellation();
      setInterval(()=>{
        getOpenDay();
      },1000);
      getLocaltion();
   },[])
+  const initGetConstellation = () =>{
+    getConstellation((new Date()).getMonth()+1,(new Date()).getDate());
+  }
+  // 星座
   const getConstellation = (m,d) => { 
       let s = "魔羯水瓶双鱼牡羊金牛双子巨蟹狮子处女天秤天蝎射手魔羯";
       let arr = [20,19,21,21,21,22,23,23,23,23,22,22];
       return `${s.substr(m*2-(d<arr[m-1]?2:0),2)}座`;
   }
+  // 改变时间后的星座
   const onChange = (d,dateString) => {
     setConstellation('');
     const getDate = new Date(dateString);
@@ -53,19 +58,27 @@ export default function Index(){
     const date = getDate.getDate();
     setConstellation(getConstellation(month,date));
   }
-
+  //博客开通时间
   const getOpenDay = () => {
-    let time=Date.parse(new Date());
-    let lasttime=Date.parse("2020-10-19");
-    const diffdate = new Date(time - lasttime);
-    const days = diffdate.getDate();
-    const hours = diffdate.getHours();
-    const minutes = diffdate.getMinutes() + 1;
-    const seconds  = diffdate.getSeconds();
-    setDiffdate(`${days}天 ${hours}时 ${minutes}分 ${seconds}秒`);
+    let time=new Date();
+    let opentime=new Date("2020/10/20");
+    
+    const dateDiff = time.getTime() - opentime.getTime();//时间差的毫秒数
+    const days = Math.floor(dateDiff / (24 * 3600 * 1000));//计算出相差天数
+
+    const leave1 = dateDiff%(24*3600*1000) //计算天数后剩余的毫秒数
+    const hours = Math.floor(leave1/(3600*1000))//计算出小时数
+
+    //计算相差分钟数
+    const leave2 = leave1%(3600*1000) //计算小时数后剩余的毫秒数
+    const minutes = Math.floor(leave2/(60*1000))//计算相差分钟数
+
+    //计算相差秒数
+    const leave3 = leave2%(60*1000) //计算分钟数后剩余的毫秒数
+    const seconds = Math.round(leave3/1000)
+    setOpendate(`${days}天 ${hours}时 ${minutes}分 ${seconds}秒`);
   }
-
-
+  //当地的天气
   const getLocaltion = () => {
     axios.get('https://restapi.amap.com/v3/ip?key=c336900aba752fc9549a670d19a93d4f')
     .then(({data})=>{
@@ -213,7 +226,7 @@ export default function Index(){
             </Card>
             <Card style={{ width: 300, margin:'20px auto 0' }}>
               <div>博客已开通</div>
-              <h3>{diffdate}</h3>
+              <h3>{opendate}</h3>
               {location.province}{location.city}，{location.weather}，当前温度{location.temperature}℃
             </Card>
           </Col>
