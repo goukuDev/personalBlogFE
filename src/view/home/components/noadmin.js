@@ -124,7 +124,7 @@ export default function Index(){
                 今天是{`${(new Date()).getFullYear()}年${(new Date()).getMonth()+1}月${(new Date()).getDate()}日,属于${getConstellation((new Date()).getMonth()+1,(new Date()).getDate())}`}
               </h3>
               <div>
-                <span style={{marginRight:10,marginBottom:10}}>选择你的生日,看看你的星座是什么吧.</span>
+                <span style={{marginRight:10,marginBottom:10}}>选择你的生日,看看你的星座是什么吧。</span>
                 <DatePicker 
                   showToday={false}
                   allowClear={false}
