@@ -12,7 +12,8 @@ const {Content,Footer} = Layout;
 export default class Index extends Component{
   state = {
     visible:false,
-    value:''
+    value:'',
+    year:new Date().getFullYear()
   }
   onOk = async () =>{
     if(!await islogin()) return message.error('请先登录');
@@ -68,7 +69,13 @@ export default class Index extends Component{
             </Affix>
           </Content>
           <Footer>
-            Copyright &copy; {this.state.year} shiyh.top 版权所有 <a href='https://beian.miit.gov.cn' target='_blank'>浙ICP备2020037581号</a>
+            <div>
+              Copyright &copy; {this.state.year} shiyh.top 版权所有
+            </div>
+            <img src={require('@/assets/img/beian.png')}/>
+            <a target="_blank" href='http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=41152502000138' style={{color:'rgba(0,0,0,0.85)'}}>豫公网安备 41152502000138号</a> 
+            &nbsp;&nbsp;
+            <a href='https://beian.miit.gov.cn' target='_blank' style={{color:'rgba(0,0,0,0.85)'}}>浙ICP备2020037581号</a>
           </Footer>
         </div>
         <Modal
