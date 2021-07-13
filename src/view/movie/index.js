@@ -38,9 +38,8 @@ export default function Index() {
 	};
 	//获取电影列表数据
 	const getlist = async ({ pageNum, pageSize }) => {
-		setloading(true);
 		if (!(await islogin())) return;
-
+		setloading(true);
 		let { data } = await getMovieList({ page: pageNum, pageSize, userId: getUser().userid }).finally(() => {
 			setloading(false);
 		});
