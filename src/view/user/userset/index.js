@@ -62,9 +62,9 @@ export default function Index(){
   };
   const getProvince = () =>{
     axios.get('https://proapi.azurewebsites.net//api/geographic/province')
-    .then(res=>{
-      if(res.status === 200){
-        setProvince(res.data);
+    .then(({status,data})=>{
+      if(status === 200){
+        setProvince(data.data);
       }
     })
   }
