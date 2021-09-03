@@ -92,7 +92,7 @@ export default function Index() {
 										lineHeight: '600px',
 										textAlign: 'center',
 										margin: 0,
-										background: `url(${require(`@/assets/img/bg${o}.jpg`)})`,
+										background: `url(${require(`@/assets/img/bg${o}.webp`)})`,
 										backgroundRepeat: 'no-repeat',
 										backgroundPosition: '50%',
 										backgroundSize: 'cover'
@@ -140,7 +140,7 @@ export default function Index() {
 						<Card
 							hoverable
 							style={{ width: 300, margin: 'auto' }}
-							cover={<img alt='example' src={require('@/assets/img/home_avatar_1.jpg')} />}
+							cover={<img alt='example' src={require('@/assets/img/home_avatar_1.webp')} />}
 							actions={[
 								<Tooltip title='项目地址'>
 									<a href='https://github.com/syhITMAN/personalBlogFE/tree/develop' target='_blank'>
@@ -156,13 +156,13 @@ export default function Index() {
 									/>
 								</Tooltip>,
 								<Tooltip
-									title={<img style={{ width: 100, height: 100 }} src={require('@/assets/img/wxxcx.jpg')} />}
+									title={<img style={{ width: 100, height: 100 }} src={require('@/assets/img/wxxcx.webp')} />}
 									trigger='[click]'
 								>
 									<IconFont type='iconxiaochengxu' />
 								</Tooltip>,
 								<Tooltip
-									title={<img style={{ width: 100, height: 100 }} src={require('@/assets/img/wxgzh.jpg')} />}
+									title={<img style={{ width: 100, height: 100 }} src={require('@/assets/img/wxgzh.webp')} />}
 									trigger='[click]'
 								>
 									<IconFont type='icongongzhonghao' />
@@ -170,7 +170,7 @@ export default function Index() {
 							]}
 						>
 							<Meta
-								avatar={<Avatar src={require('@/assets/img/home_avatar_1.jpg')} />}
+								avatar={<Avatar src={require('@/assets/img/home_avatar_1.webp')} />}
 								title='Shiyonghua'
 								description='欢迎来到我的博客'
 							/>

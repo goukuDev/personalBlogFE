@@ -11,7 +11,7 @@ const { Header } = Layout;
 const { confirm } = Modal;
 
 const history = createHashHistory();
-const img = require('@/assets/img/logo.jpg');
+const img = require('@/assets/img/logo.webp');
 const menuArray = [
 	{ key: 'home', name: '首页' },
 	{ key: 'music', name: '音乐' },
